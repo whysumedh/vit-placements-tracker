@@ -76,9 +76,6 @@ with tab2:
 
     company_ctc_dist = company_data['CTC'].value_counts()
     company_ctc_dist.index = [f"{ctc} LPA" for ctc in company_ctc_dist.index]
-    
-    fig = px.pie(values=company_ctc_dist, names=company_ctc_dist.index, title=f'{company} CTC Distribution')
-    st.plotly_chart(fig)
 
     branch_count_company = company_data['Branch'].value_counts()
     st.write(f"**Branches under {company}:**")
@@ -88,6 +85,9 @@ with tab2:
 
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
     st.write(f"**Average CTC in {company}: {avg_ctc_company:.2f} LPA**")
+
+    fig = px.pie(values=company_ctc_dist, names=company_ctc_dist.index, title=f'{company} CTC Distribution')
+    st.plotly_chart(fig)
 
 with tab3:
     st.header("Overall Placement Statistics")
