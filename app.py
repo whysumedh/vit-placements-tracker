@@ -19,10 +19,11 @@ with st.expander("Disclaimer", expanded=True):
     **Please Note That:**  
     - The data is scraped from placements mail from July-18-2024.
     - It may not be accurate or up-to-date (Will try to update as new selections keep coming).
-    - **The CTC information is not available for most of the Summer PPOs, and Internship Offers.**
+    - **The CTC information is not available for most of the Summer PPOs, and Internship Offers.
+                (Please provide PPO CTC Info in the below gform if yk for the respective company)**
     - **The average,median CTC stats have been considered from available CTC information only.**
     - Only 21 Batch B.Tech details have been considered.
-    - Data Updated as on 27 September 2024 6:05PM.
+    - Data Updated as on 27 September 2024 9:07PM.
     """)
 
 
@@ -156,6 +157,8 @@ st.sidebar.write("**Recent Changes**")
 st.sidebar.markdown("""
     - VISA PPO CTC Updated to 32LPA
     - Fidelity PPO CTC Updated to 15LPA
+    - Microsoft PPO Updated to 55LPA
+    - British Telecom Information Updated
 """)
 
 st.markdown("<br><br><br><br><br><br>", unsafe_allow_html=True)
