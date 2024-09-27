@@ -141,5 +141,15 @@ with tab3:
     st.write("**Students Placed by Branch:**")
     st.write(branchwise_count)
 
-st.markdown("<br><br><br><br><br><br><br>", unsafe_allow_html=True)
+
+
+st.markdown("<br><br><br><br><br><br>", unsafe_allow_html=True)
+st.markdown("""
+    <p style='text-align: center;'>
+        For Feedback and Discrepancies: 
+        <a href='https://forms.gle/ZVSaNbbFHRjwevEN6' target='_blank'>
+            Google Form
+        </a>
+    </p>
+    """, unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Made by Sumedh K</p>", unsafe_allow_html=True)
