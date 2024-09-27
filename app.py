@@ -48,7 +48,7 @@ with tab1:
 
     
     st.write(f"**Statistics for {branch}:**")
-    st.write(f"Number of Selections: {num_selections}")
+    st.write(f"**Number of Selections: {num_selections}**")
     st.write(f"Average CTC: {avg_ctc:.2f} LPA")
     st.write(f"Maximum CTC: {max_ctc:.2f} LPA")
     st.write(f"Minimum CTC: {min_ctc:.2f} LPA")
