@@ -124,22 +124,37 @@ with tab2:
 
 with tab3:
     st.header("Overall Placement Statistics")
+    
+    # Calculate overall CTC statistics
     overall_avg_ctc = df['CTC'].mean()
     overall_max_ctc = df['CTC'].max()
     overall_min_ctc = df['CTC'].min()
     overall_median_ctc = df['CTC'].median()
     
-    st.write(f"Average CTC: {overall_avg_ctc:.2f} LPA")
-    st.write(f"Maximum CTC: {overall_max_ctc:.2f} LPA")
-    st.write(f"Minimum CTC: {overall_min_ctc:.2f} LPA")
-    st.write(f"Median CTC: {overall_median_ctc:.2f} LPA")
+    # Display overall CTC statistics
+    st.write(f"**Average CTC:** {overall_avg_ctc:.2f} LPA")
+    st.write(f"**Maximum CTC:** {overall_max_ctc:.2f} LPA")
+    st.write(f"**Minimum CTC:** {overall_min_ctc:.2f} LPA")
+    st.write(f"**Median CTC:** {overall_median_ctc:.2f} LPA")
     
+    # Total number of students placed
     total_students_placed = df['Reg_No'].count()
-    st.write(f"**Total Students Placed: {total_students_placed}**")
+    st.write(f"**Total Students Placed:** {total_students_placed}")
     
+    # Branch-wise student count
     branchwise_count = df.groupby('Branch').size()
     st.write("**Students Placed by Branch:**")
     st.write(branchwise_count)
+    
+    # Total number of companies
+    total_companies = df['Company'].nunique()
+    st.write(f"**Total Number of Companies:** {total_companies}")
+    
+    # List of companies
+    company_list = df['Company'].unique()
+    company_df = pd.DataFrame(company_list, columns=["Company Name"])  # Change column name here
+    st.write("**List of Companies:**")
+    st.table(company_df)
 
 
 
