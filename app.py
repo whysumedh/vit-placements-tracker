@@ -13,16 +13,16 @@ def convert_ctc_to_numeric(ctc):
 df['CTC'] = df['CTC'].apply(convert_ctc_to_numeric)
 
 
-if st.button("Show Disclaimer"):
-    with st.expander("Disclaimer", expanded=True):
-        st.markdown("""
-        **Please Note That:**  
-        - The data is scraped from placements mails from July-18-2024.
-        - It may not be accurate or up-to-date (Will try to update as new selections keep coming).
-        - The CTC information is not available for most of the Summer PPOs, and Internship Offers.
-        """)
-else:
-    st.info("Please read the disclaimer by clicking the button above.")
+with st.expander("Disclaimer", expanded=True):
+    st.markdown("""
+    **Please Note That:**  
+    - The data is scraped from placements mails from July-18-2024.
+    - It may not be accurate or up-to-date (Will try to update as new selections keep coming).
+    - The CTC information is not available for most of the Summer PPOs, and Internship Offers.
+    - Only 21 Batch B.Tech details have been considered.
+    - Data Updated as on 26 September 2024.
+    """)
+
 
 
 tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics"])
@@ -51,6 +51,15 @@ with tab1:
     st.write(f"Maximum CTC: {max_ctc:.2f} LPA")
     st.write(f"Minimum CTC: {min_ctc:.2f} LPA")
     st.write(f"Median CTC: {median_ctc:.2f} LPA")
+
+    company_stats = branch_data.groupby('Company').agg(
+        num_selections=('CTC', 'size'),  
+        avg_ctc=('CTC', 'mean')  
+    ).reset_index().sort_values(by='num_selections', ascending=False)
+
+    st.write(f"**Companies and CTC offered under {branch}:**")
+    st.write(company_stats)
+
 
 with tab2:
     st.header("Company-wise Placements")
@@ -87,12 +96,6 @@ with tab3:
     overall_min_ctc = df['CTC'].min()
     overall_median_ctc = df['CTC'].median()
     
-    st.sidebar.header("**Overall CTC Statistics:**")
-    st.sidebar.write(f"Average CTC: {overall_avg_ctc:.2f} LPA")
-    st.sidebar.write(f"Maximum CTC: {overall_max_ctc:.2f} LPA")
-    st.sidebar.write(f"Minimum CTC: {overall_min_ctc:.2f} LPA")
-    st.sidebar.write(f"Median CTC: {overall_median_ctc:.2f} LPA")
-
     st.write(f"Average CTC: {overall_avg_ctc:.2f} LPA")
     st.write(f"Maximum CTC: {overall_max_ctc:.2f} LPA")
     st.write(f"Minimum CTC: {overall_min_ctc:.2f} LPA")
