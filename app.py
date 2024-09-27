@@ -17,9 +17,10 @@ st.title("VIT Placement Tracker")
 with st.expander("Disclaimer", expanded=True):
     st.markdown("""
     **Please Note That:**  
-    - The data is scraped from placements mails from July-18-2024.
+    - The data is scraped from placements mail from July-18-2024.
     - It may not be accurate or up-to-date (Will try to update as new selections keep coming).
     - **The CTC information is not available for most of the Summer PPOs, and Internship Offers.**
+    - **The average,median CTC stats have been considered from available CTC information only.**
     - Only 21 Batch B.Tech details have been considered.
     - Data Updated as on 27 September 2024 6:05PM.
     """)
@@ -127,38 +128,35 @@ with tab2:
 with tab3:
     st.header("Overall Placement Statistics")
     
-    # Calculate overall CTC statistics
     overall_avg_ctc = df['CTC'].mean()
     overall_max_ctc = df['CTC'].max()
     overall_min_ctc = df['CTC'].min()
     overall_median_ctc = df['CTC'].median()
     
-    # Display overall CTC statistics
     st.write(f"**Average CTC:** {overall_avg_ctc:.2f} LPA")
     st.write(f"**Maximum CTC:** {overall_max_ctc:.2f} LPA")
     st.write(f"**Minimum CTC:** {overall_min_ctc:.2f} LPA")
     st.write(f"**Median CTC:** {overall_median_ctc:.2f} LPA")
     
-    # Total number of students placed
     total_students_placed = df['Reg_No'].count()
     st.write(f"**Total Students Placed:** {total_students_placed}")
     
-    # Branch-wise student count
     branchwise_count = df.groupby('Branch').size()
     st.write("**Students Placed by Branch:**")
     st.write(branchwise_count)
     
-    # Total number of companies
     total_companies = df['Company'].nunique()
     st.write(f"**Total Number of Companies:** {total_companies}")
     
-    # List of companies
     company_list = df['Company'].unique()
-    company_df = pd.DataFrame(company_list, columns=["Company Name"])  # Change column name here
+    company_df = pd.DataFrame(company_list, columns=["Company Name"])  
     st.write("**List of Companies:**")
     st.table(company_df)
-
-
+st.sidebar.write("**Recent Changes**")
+st.sidebar.markdown("""
+    - VISA PPO CTC Updated to 32LPA
+    - Fidelity PPO CTC Updated to 15LPA
+""")
 
 st.markdown("<br><br><br><br><br><br>", unsafe_allow_html=True)
 st.markdown("""
