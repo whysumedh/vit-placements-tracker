@@ -107,8 +107,3 @@ with tab3:
     branchwise_count = df.groupby('Branch').size()
     st.write("**Students Placed by Branch:**")
     st.write(branchwise_count)
-
-
-
-st.markdown("<br><br><br><br><br><br><br>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center;'>Made by (can't disclose CDC might blacklist me)</p>", unsafe_allow_html=True)
