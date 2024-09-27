@@ -12,6 +12,7 @@ def convert_ctc_to_numeric(ctc):
 
 df['CTC'] = df['CTC'].apply(convert_ctc_to_numeric)
 
+st.title("VIT Placement Tracker")
 
 with st.expander("Disclaimer", expanded=True):
     st.markdown("""
