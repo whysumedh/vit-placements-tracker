@@ -42,8 +42,11 @@ with tab1:
     max_ctc = branch_data['CTC'].max()
     min_ctc = branch_data['CTC'].min()
     median_ctc = branch_data['CTC'].median()
+    num_selections = len(branch_data)
+
     
     st.write(f"**Statistics for {branch}:**")
+    st.write(f"Number of Selections: {num_selections}")
     st.write(f"Average CTC: {avg_ctc:.2f} LPA")
     st.write(f"Maximum CTC: {max_ctc:.2f} LPA")
     st.write(f"Minimum CTC: {min_ctc:.2f} LPA")
@@ -51,27 +54,30 @@ with tab1:
 
 with tab2:
     st.header("Company-wise Placements")
-    
+
     company_count = df['Company'].value_counts()
     fig = px.pie(values=company_count, names=company_count.index, title='Company-wise Placement Distribution')
     st.plotly_chart(fig)
-    
+
     company = st.selectbox("Select Company", options=df['Company'].unique())
-    
+
     company_data = df[df['Company'] == company]
-    
+
+    num_selections_company = len(company_data)
+
     company_ctc_dist = company_data['CTC'].value_counts()
-    
     company_ctc_dist.index = [f"{ctc} LPA" for ctc in company_ctc_dist.index]
+    
     fig = px.pie(values=company_ctc_dist, names=company_ctc_dist.index, title=f'{company} CTC Distribution')
-    
     st.plotly_chart(fig)
-    
+
     branch_count_company = company_data['Branch'].value_counts()
     st.write(f"**Branches under {company}:**")
     st.write(branch_count_company)
-    
+
     avg_ctc_company = company_data['CTC'].mean()
+
+    st.write(f"**Total Selections in {company}: {num_selections_company}**")
     st.write(f"**Average CTC in {company}: {avg_ctc_company:.2f} LPA**")
 
 with tab3:
@@ -102,4 +108,4 @@ with tab3:
 
 
 st.markdown("<br><br><br><br><br><br><br>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center;'>Made with ❤️da by (can't disclose CDC might blacklist me)</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Made by (can't disclose CDC might blacklist me)</p>", unsafe_allow_html=True)
