@@ -56,10 +56,13 @@ with tab1:
     company_stats = branch_data.groupby('Company').agg(
         num_selections=('CTC', 'size'),  
         avg_ctc=('CTC', 'mean')  
-    ).reset_index().sort_values(by='num_selections', ascending=False)
+    ).reset_index()
+    company_stats['avg_ctc'] = company_stats['avg_ctc'].map(lambda x: f"{x:.1f}")
 
     st.write(f"**Companies and CTC offered under {branch}:**")
-    st.write(company_stats)
+    company_stats = company_stats.rename(columns={'avg_ctc': 'Average CTC (LPA)'})
+    company_stats = company_stats.rename(columns={'num_selections': 'Placed'})
+    st.table(company_stats[['Company', 'Placed', 'Average CTC (LPA)']]) 
 
 
 # with tab2:
@@ -111,8 +114,7 @@ with tab2:
 
     branch_count_company = company_data['Branch'].value_counts()
     st.write(f"**Branches under {company}:**")
-    st.write(branch_count_company)
-
+    st.table(branch_count_company)
     avg_ctc_company = company_data['CTC'].mean()
 
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
