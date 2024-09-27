@@ -21,7 +21,7 @@ with st.expander("Disclaimer", expanded=True):
     - It may not be accurate or up-to-date (Will try to update as new selections keep coming).
     - **The CTC information is not available for most of the Summer PPOs, and Internship Offers.**
     - Only 21 Batch B.Tech details have been considered.
-    - Data Updated as on 27 September 2024.
+    - Data Updated as on 27 September 2024 6:05PM.
     """)
 
 
