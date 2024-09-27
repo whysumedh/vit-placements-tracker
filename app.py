@@ -61,11 +61,42 @@ with tab1:
     st.write(company_stats)
 
 
+# with tab2:
+#     st.header("Company-wise Placements")
+
+#     company_count = df['Company'].value_counts()
+#     fig = px.pie(values=company_count, names=company_count.index, title='Company-wise Placement Distribution')
+#     st.plotly_chart(fig)
+
+#     company = st.selectbox("Select Company", options=df['Company'].unique())
+
+#     company_data = df[df['Company'] == company]
+
+#     num_selections_company = len(company_data)
+
+#     company_ctc_dist = company_data['CTC'].value_counts()
+#     company_ctc_dist.index = [f"{ctc} LPA" for ctc in company_ctc_dist.index]
+
+#     branch_count_company = company_data['Branch'].value_counts()
+#     st.write(f"**Branches under {company}:**")
+#     st.write(branch_count_company)
+
+#     avg_ctc_company = company_data['CTC'].mean()
+
+#     st.write(f"**Total Selections in {company}: {num_selections_company}**")
+#     st.write(f"**Average CTC in {company}: {avg_ctc_company:.2f} LPA**")
+
+#     fig = px.pie(values=company_ctc_dist, names=company_ctc_dist.index, title=f'{company} CTC Distribution')
+#     st.plotly_chart(fig)
+
 with tab2:
     st.header("Company-wise Placements")
 
     company_count = df['Company'].value_counts()
-    fig = px.pie(values=company_count, names=company_count.index, title='Company-wise Placement Distribution')
+
+    fig = px.bar(x=company_count.index, y=company_count.values, 
+                 labels={'x': 'Company', 'y': 'Number of Selections'},
+                 title='Company-wise Placement Distribution')
     st.plotly_chart(fig)
 
     company = st.selectbox("Select Company", options=df['Company'].unique())
@@ -88,6 +119,7 @@ with tab2:
 
     fig = px.pie(values=company_ctc_dist, names=company_ctc_dist.index, title=f'{company} CTC Distribution')
     st.plotly_chart(fig)
+
 
 with tab3:
     st.header("Overall Placement Statistics")
