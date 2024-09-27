@@ -172,8 +172,8 @@ st.markdown("""
     """, unsafe_allow_html=True)
 st.markdown("""
     <p style='text-align: center;'>
-        Check out the Reddit post!!: 
-        <a href='https://forms.gle/ZVSaNbbFHRjwevEN6' target='_blank'>
+        Check out the Reddit post!!  
+        <a href='https://www.reddit.com/r/Vit/comments/1fqhlmp/placement_stats_up_until_now/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button' target='_blank'>
             Reddit Post
         </a>
     </p>
