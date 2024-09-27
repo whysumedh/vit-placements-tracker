@@ -167,3 +167,4 @@ st.markdown("""
         </a>
     </p>
     """, unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Made by Sumedh K</p>", unsafe_allow_html=True)
