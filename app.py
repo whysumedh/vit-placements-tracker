@@ -170,4 +170,12 @@ st.markdown("""
         </a>
     </p>
     """, unsafe_allow_html=True)
+st.markdown("""
+    <p style='text-align: center;'>
+        Check out the Reddit post!!: 
+        <a href='https://forms.gle/ZVSaNbbFHRjwevEN6' target='_blank'>
+            Reddit Post
+        </a>
+    </p>
+    """, unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Made by Sumedh K</p>", unsafe_allow_html=True)
