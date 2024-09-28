@@ -153,7 +153,7 @@ with tab3:
     company_df = pd.DataFrame(company_list, columns=["Company Name"])  
     st.write("**List of Companies:**")
     st.table(company_df)
-st.sidebar.write("**Recent Changes**")
+# st.sidebar.write("**Recent Changes**")
 # st.sidebar.markdown("""
 #     - VISA PPO CTC Updated to 32LPA
 #     - Fidelity PPO CTC Updated to 15LPA
