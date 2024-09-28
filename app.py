@@ -147,7 +147,7 @@ with tab3:
     st.write(branchwise_count)
     
     total_companies = df['Company'].nunique()
-    st.write(f"**Total Number of Companies:** {total_companies}")
+    st.write(f"**Total Number of Companies: (Please Note That : Some companies came for both PPO and Placements)** {total_companies}")
     
     company_list = df['Company'].unique()
     company_df = pd.DataFrame(company_list, columns=["Company Name"])  
