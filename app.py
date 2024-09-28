@@ -23,7 +23,7 @@ with st.expander("Disclaimer", expanded=True):
                 (Please provide PPO CTC Info in the below gform if yk for the respective company)**
     - **The average,median CTC stats have been considered from available CTC information only.**
     - Only 21 Batch B.Tech details have been considered.
-    - Data Updated as on 27 September 2024 9:07PM.
+    - Data Updated as on 28 September 2024 9:59AM.
     """)
 
 
@@ -158,7 +158,6 @@ st.sidebar.markdown("""
     - VISA PPO CTC Updated to 32LPA
     - Fidelity PPO CTC Updated to 15LPA
     - Microsoft PPO Updated to 55LPA
-    - British Telecom Information Updated
 """)
 
 st.markdown("<br><br><br><br><br><br>", unsafe_allow_html=True)
