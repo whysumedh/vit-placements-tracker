@@ -154,10 +154,31 @@ with tab3:
     st.write("**List of Companies:**")
     st.table(company_df)
 st.sidebar.write("**Recent Changes**")
-st.sidebar.write(""" Thanks for the responses, the following CTC info is updated.""")
+# st.sidebar.write("Deloitte USI made 88 offers, 84(B.Tech)+4(M.Tech)")
+# st.sidebar.write("IBM PPO Updated to 12LPA")
+# st.sidebar.write("Sabre CTC Info Updated SA-16.84 and BA-16.29")
+# st.sidebar.write(""" Thanks for the responses, the following CTC info is updated.""")
+# st.sidebar.image("imageppo.png", caption="CTC Changes", use_column_width=True)
+# st.sidebar.write("The CTC Average,Median might be skewed at the end, as we don't know how many will convert some internship offers at the end.")
+# st.sidebar.write("I did update the CTC Info profile-wise if the company is offering various CTCs , you can check that in company-wise stats, company's CTC distribution.")
+
+st.sidebar.markdown("""
+- **Deloitte USI** made 88 offers, 84(B.Tech) + 4(M.Tech)  
+- **IBM PPO** Updated to **12 LPA**  
+- **Sabre CTC Info** Updated:  SA-16.84LPA and BA-16.29LPA
+ 
+Thanks for the responses, the following **CTC info** is updated.  
+""")
 st.sidebar.image("imageppo.png", caption="CTC Changes", use_column_width=True)
-st.sidebar.write("The CTC Average,Median might be skewed at the end, as we don't know how many will convert some internship offers at the end.")
-st.sidebar.write("I did update the CTC Info profile-wise if the company is offering various CTCs , you can check that in company-wise stats, company's CTC distribution.")
+
+
+st.sidebar.markdown("""
+The **CTC Average** and **Median** might be skewed at the end, as we don't know how many internship offers will convert.
+
+I did update the CTC info profile-wise. If the company is offering various CTCs, you can check that in the company-wise stats for the company's **CTC distribution**.
+""")
+
+# Add the image in between the text
 
 st.markdown("<br><br><br><br><br><br>", unsafe_allow_html=True)
 st.markdown("""
