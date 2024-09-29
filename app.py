@@ -155,7 +155,7 @@ with tab3:
     st.table(company_df)
 st.sidebar.write("**Recent Changes**")
 st.sidebar.write(""" Thanks for the responses, the following CTC info is updated.""")
-st.sidebar.write("The CTC Average,Median might be skewed at the end, as we don't know how many will convert internships at the end.")
+st.sidebar.write("The CTC Average,Median might be skewed at the end, as we don't know how many will convert some internship offers at the end.")
 st.sidebar.write("I did update the CTC Info profile-wise if the company is offering various CTCs , you can check that in company-wise stats, company's CTC distribution.")
 st.sidebar.image("imageppo.png", caption="CTC Changes", use_column_width=True)
 
