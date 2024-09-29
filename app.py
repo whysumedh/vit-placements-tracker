@@ -25,7 +25,7 @@ with st.expander("Disclaimer", expanded=True):
     - Only 21 Batch B.Tech details have been considered.
     """)
 
-st.write("Data Updated as on **28 September 2024 11:48AM**")
+st.write("Data Updated as on **29 September 2024 1:35PM**")
 
 tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics"])
 
@@ -153,12 +153,11 @@ with tab3:
     company_df = pd.DataFrame(company_list, columns=["Company Name"])  
     st.write("**List of Companies:**")
     st.table(company_df)
-# st.sidebar.write("**Recent Changes**")
-# st.sidebar.markdown("""
-#     - VISA PPO CTC Updated to 32LPA
-#     - Fidelity PPO CTC Updated to 15LPA
-#     - Microsoft PPO Updated to 55LPA
-# """)
+st.sidebar.write("**Recent Changes**")
+st.sidebar.write(""" Thanks for the responses, the following CTC info is updated.""")
+st.sidebar.write("The CTC Average,Median might be skewed at the end, as we don't know how many will convert internships at the end.")
+st.sidebar.write("I did update the CTC Info profile-wise if the company is offering various CTCs , you can check that in company-wise stats, company's CTC distribution.")
+st.sidebar.image("imageppo.png", caption="CTC Changes", use_column_width=True)
 
 st.markdown("<br><br><br><br><br><br>", unsafe_allow_html=True)
 st.markdown("""
