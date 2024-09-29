@@ -23,10 +23,9 @@ with st.expander("Disclaimer", expanded=True):
                 (Please provide PPO CTC Info in the below gform if yk for the respective company)**
     - **The average,median CTC stats have been considered from available CTC information only.**
     - Only 21 Batch B.Tech details have been considered.
-    - Data Updated as on **28 September 2024 11:48AM**.
     """)
 
-
+st.write("Data Updated as on **28 September 2024 11:48AM**")
 
 tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics"])
 
