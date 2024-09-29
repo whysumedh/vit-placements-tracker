@@ -145,14 +145,35 @@ with tab3:
     st.write("**Students Placed by Branch:**")
     st.write(branchwise_count)
     
+    # total_companies = df['Company'].nunique()
+    # st.write(f"**Total Number of Companies:** {total_companies}")
+    # st.write("*Please Note That : Some companies came for both PPO and Placements*")
+    
+    # company_list = df['Company'].unique()
+    # company_df = pd.DataFrame(company_list, columns=["Company Name"])  
+    # st.write("**List of Companies:**")
+    # st.table(company_df)
+
     total_companies = df['Company'].nunique()
     st.write(f"**Total Number of Companies:** {total_companies}")
-    st.write("*Please Note That : Some companies came for both PPO and Placements*")
-    
-    company_list = df['Company'].unique()
-    company_df = pd.DataFrame(company_list, columns=["Company Name"])  
+    st.write("*Please Note That: Some companies came for both PPO and Placements*")
+    st.write("*Avg CTC is the average of various CTCs offered by the company(if offered various CTCs)*")
+
+    company_stats = df.groupby('Company').agg(
+        num_selections=('Reg_No', 'size'),  
+        avg_ctc=('CTC', 'mean')  
+    ).reset_index()
+    company_stats['avg_ctc'] = company_stats['avg_ctc'].map(lambda x: f"{x:.1f}")
+
+    company_stats.rename(columns={'Company': 'Company Name', 'num_selections': 'Placed', 'avg_ctc': 'Avg CTC (LPA)'}, inplace=True)
+
     st.write("**List of Companies:**")
-    st.table(company_df)
+    st.table(company_stats)
+
+
+
+
+
 st.sidebar.write("**Recent Changes**")
 # st.sidebar.write("Deloitte USI made 88 offers, 84(B.Tech)+4(M.Tech)")
 # st.sidebar.write("IBM PPO Updated to 12LPA")
