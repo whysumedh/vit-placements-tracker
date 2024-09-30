@@ -186,6 +186,7 @@ st.sidebar.write("**Recent Changes**")
 # st.sidebar.write("I did update the CTC Info profile-wise if the company is offering various CTCs , you can check that in company-wise stats, company's CTC distribution.")
 
 st.sidebar.markdown("""
+- **Sabre Corp** CTC Updated to 18.92LPA
 - **Deloitte USI** made 88 offers, 84(B.Tech) + 4(M.Tech)  
 - **IBM PPO** Updated to **12 LPA**  
 - **Sabre CTC Info** Updated:  SA-16.84LPA and BA-16.29LPA
