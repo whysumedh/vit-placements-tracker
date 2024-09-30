@@ -25,7 +25,7 @@ with st.expander("Disclaimer", expanded=True):
     - Only 21 Batch B.Tech details have been considered.
     """)
 
-st.write("Data Updated as on **29 September 2024 1:35PM**")
+st.write("Data Updated as on **29 September 2024 11:35PM**")
 
 tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics"])
 
@@ -61,6 +61,8 @@ with tab1:
     company_stats['avg_ctc'] = company_stats['avg_ctc'].map(lambda x: f"{x:.1f}")
 
     st.write(f"**Companies and CTC offered under {branch}:**")
+    st.write("*Avg CTC is the average of various CTCs offered by the company(if offered various CTCs)*")
+
     company_stats = company_stats.rename(columns={'avg_ctc': 'Average CTC (LPA)'})
     company_stats = company_stats.rename(columns={'num_selections': 'Placed'})
     st.table(company_stats[['Company', 'Placed', 'Average CTC (LPA)']]) 
