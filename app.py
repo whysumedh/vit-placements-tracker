@@ -25,7 +25,7 @@ with st.expander("Disclaimer", expanded=True):
     - Only 21 Batch B.Tech details have been considered.
     """)
 
-st.write("Data Updated as on **30 September 2024 07:51PM**")
+st.write("Data Updated as on **30 September 2024 09:59PM**")
 
 tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics"])
 
