@@ -221,11 +221,3 @@ st.markdown("""
     </p>
     """, unsafe_allow_html=True)
 # st.markdown("<p style='text-align: center;'>Made by Sumedh K</p>", unsafe_allow_html=True)
-st.markdown("""
-    <p style='text-align: center;'>
-        Made by  
-        <a href='https://www.linkedin.com/in/sumedh-sai-873824a6/'>
-            Sumedh K
-        </a>
-    </p>
-    """, unsafe_allow_html=True)
