@@ -188,7 +188,8 @@ st.sidebar.write("**Recent Changes**")
 st.sidebar.markdown("""
 - **Sabre Corp** CTC Updated to 18.92LPA
 - **Deloitte USI** made 88 offers, 84(B.Tech) + 4(M.Tech)  
-- **IBM PPO** Updated to **12 LPA**  
+- **IBM PPO** Updated to **12 LPA** 
+                     
 Thanks for the responses, the following **CTC info** is updated.  
 """)
 st.sidebar.image("imageppo.png", caption="CTC Changes", use_column_width=True)
