@@ -30,9 +30,34 @@ st.write("Data Updated as on **02 October 2024 05:48PM**")
 tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics"])
 
 with tab1:
+    branch_name_mapping = {
+        'BCE': '(BCE)Computer Science Core',
+        'BAI': '(BAI)CS with AIML',
+        'BEC': '(BEC)Electronics(ECE)',
+        'BRS': '(BRS)CS with AI & Robotics',
+        'BIT': '(BIT)Information Technology',
+        'BCI': '(BCI)CS with Info Security',
+        'BPS': '(BPS)CS with Cyber Physical Systems',
+        'BDS': '(BDS)CS with Data Science',
+        'BCT': '(BCT)CS with IOT',
+        'BME': '(BME)Mechanical Engineering',
+        'BBS': '(BBS)CS with Business Systems',
+        'BLC': '(BLC)Electronics and Computers',
+        'BEE': '(BEE)Electrical Enggineering',
+        'BCY': '(BCY)CS with Cyber Security',        
+    }
     st.header("Branch-wise Placements")
     
+    # branch_count = df['Branch'].value_counts()
+    # fig = px.pie(values=branch_count, names=branch_count.index, title='Branch-wise Placement Distribution')
+    # st.plotly_chart(fig)
+
     branch_count = df['Branch'].value_counts()
+    
+    # Replace branch names using the mapping dictionary
+    branch_count.index = branch_count.index.to_series().replace(branch_name_mapping)
+    
+    # Create a pie chart
     fig = px.pie(values=branch_count, names=branch_count.index, title='Branch-wise Placement Distribution')
     st.plotly_chart(fig)
     
@@ -186,20 +211,18 @@ st.sidebar.write("**Recent Changes**")
 # st.sidebar.write("I did update the CTC Info profile-wise if the company is offering various CTCs , you can check that in company-wise stats, company's CTC distribution.")
 
 st.sidebar.markdown("""
-- **Sabre Corp** CTC Updated to 18.92LPA
-- **Deloitte USI** made 88 offers, 84(B.Tech) + 4(M.Tech)  
-- **IBM PPO** Updated to **12 LPA** 
+    - Please lmk the branch names which are not mentioned in pie chart agenda
                      
 Thanks for the responses, the following **CTC info** is updated.  
 """)
 st.sidebar.image("imageppo.png", caption="CTC Changes", use_column_width=True)
 
 
-st.sidebar.markdown("""
-The **CTC Average** and **Median** might be skewed at the end, as we don't know how many internship offers will convert.
+# st.sidebar.markdown("""
+# The **CTC Average** and **Median** might be skewed at the end, as we don't know how many internship offers will convert.
 
-I did update the CTC info profile-wise. If the company is offering various CTCs, you can check that in the company-wise stats for the company's **CTC distribution**.
-""")
+# I did update the CTC info profile-wise. If the company is offering various CTCs, you can check that in the company-wise stats for the company's **CTC distribution**.
+# """)
 
 # Add the image in between the text
 
