@@ -43,7 +43,7 @@ with tab1:
         'BME': '(BME)Mechanical Engineering',
         'BBS': '(BBS)CS with Business Systems',
         'BLC': '(BLC)Electronics and Computers',
-        'BEE': '(BEE)Electrical Enggineering',
+        'BEE': '(BEE)Electrical Engineering',
         'BCY': '(BCY)CS with Cyber Security',        
     }
     st.header("Branch-wise Placements")
