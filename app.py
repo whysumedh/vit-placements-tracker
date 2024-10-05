@@ -25,7 +25,7 @@ with st.expander("Disclaimer", expanded=True):
     - Only 21 Batch B.Tech details have been considered.
     """)
 
-st.write("Data Updated as on **02 October 2024 05:48PM**")
+st.write("Data Updated as on **03 October 2024 08:48PM**")
 
 tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics"])
 
@@ -201,7 +201,6 @@ with tab3:
 
 
 
-st.sidebar.write("**Recent Changes**")
 # st.sidebar.write("Deloitte USI made 88 offers, 84(B.Tech)+4(M.Tech)")
 # st.sidebar.write("IBM PPO Updated to 12LPA")
 # st.sidebar.write("Sabre CTC Info Updated SA-16.84 and BA-16.29")
@@ -210,12 +209,12 @@ st.sidebar.write("**Recent Changes**")
 # st.sidebar.write("The CTC Average,Median might be skewed at the end, as we don't know how many will convert some internship offers at the end.")
 # st.sidebar.write("I did update the CTC Info profile-wise if the company is offering various CTCs , you can check that in company-wise stats, company's CTC distribution.")
 
-st.sidebar.markdown("""
-    - Please lmk the branch names which are not mentioned in pie chart agenda
+# st.sidebar.markdown("""
+#     - Please lmk the branch names which are not mentioned in pie chart agenda
                      
-Thanks for the responses, the following **CTC info** is updated.  
-""")
-st.sidebar.image("imageppo.png", caption="CTC Changes", use_column_width=True)
+# Thanks for the responses, the following **CTC info** is updated.  
+# """)
+# st.sidebar.image("imageppo.png", caption="CTC Changes", use_column_width=True)
 
 
 # st.sidebar.markdown("""
