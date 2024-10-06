@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go
+
 
 df=pd.read_excel('google_sheet_data.xlsx')
 def convert_ctc_to_numeric(ctc):
@@ -167,6 +169,38 @@ with tab3:
     
     total_students_placed = df['Reg_No'].count()
     st.write(f"**Total Students Placed:** {total_students_placed}")
+
+    st.write("**Note that CTC information is not known for some companies (NA) so the below Bar Chart numbers might not add up to the total students placed**")
+
+    # CTC range counts
+    ctc_ranges = ['<= 10 LPA','10-15 LPA','15-20 LPA','> 20 LPA']
+    ctc_counts = [
+        df[df['CTC'] <= 10].shape[0]  ,
+        df[(df['CTC'] > 10) & (df['CTC'] <= 15)].shape[0],
+        df[(df['CTC'] > 15) & (df['CTC'] <= 20)].shape[0], 
+        df[df['CTC'] > 20].shape[0]        
+
+    ]
+    
+    # Create a simple bar chart
+    ctc_data = {
+        'CTC Range': ctc_ranges,
+        'Number of Students': ctc_counts
+    }
+    
+    fig = px.bar(
+        ctc_data, 
+        x='CTC Range', 
+        y='Number of Students', 
+        text='Number of Students',  # Display the count directly on the bars
+        labels={'CTC Range': 'CTC Range (LPA)', 'Number of Students': 'Number of Students'},
+        title="Number of Students Placed by CTC Range"
+    )
+    
+    fig.update_traces(texttemplate='%{text}', textposition='outside')
+    fig.update_layout(height=400, showlegend=False)
+
+    st.plotly_chart(fig)
     
     branchwise_count = df.groupby('Branch').size()
     st.write("**Students Placed by Branch:**")
@@ -242,4 +276,11 @@ st.markdown("""
         </a>
     </p>
     """, unsafe_allow_html=True)
-# st.markdown("<p style='text-align: center;'>Made by Sumedh K</p>", unsafe_allow_html=True)
+st.markdown("""
+    <p style='text-align: center;'>
+        Made by  
+        <a href='https://www.linkedin.com/in/sumedh-sai-873824a6/'>
+            Sumedh K
+        </a>
+    </p>
+    """, unsafe_allow_html=True)
