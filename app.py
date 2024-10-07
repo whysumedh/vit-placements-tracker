@@ -14,7 +14,7 @@ def convert_ctc_to_numeric(ctc):
 
 df['CTC'] = df['CTC'].apply(convert_ctc_to_numeric)
 
-st.set_page_config(page_title="VIT Placement Tracker", page_icon="😔")
+st.set_page_config(page_title="VIT Placement Tracker", page_icon="favicon-16x16.png")
 
 st.title("VIT Placement Tracker")
 
