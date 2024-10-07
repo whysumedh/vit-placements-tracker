@@ -4,6 +4,29 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
+import subprocess
+from datetime import datetime
+
+def get_commit_date(file_path):
+    result = subprocess.run(
+        ["git", "log", "-1", "--format=%cd", "--", file_path],
+        capture_output=True,
+        text=True
+    )
+    return result.stdout.strip()
+
+file_path = 'google_sheet_data.xlsx'
+
+commit_date_str = get_commit_date(file_path)
+
+if commit_date_str:
+    commit_date = datetime.strptime(commit_date_str, "%a %b %d %H:%M:%S %Y %z")
+    formatted_date = commit_date.strftime("%d %B %I:%M %p")
+else:
+    formatted_date = "No commits found."
+
+
+
 
 df=pd.read_excel('google_sheet_data.xlsx')
 def convert_ctc_to_numeric(ctc):
@@ -29,7 +52,8 @@ with st.expander("Disclaimer", expanded=True):
     - Only 21 Batch B.Tech details have been considered.
     """)
 
-st.write("Data Updated as on **07 October 2024 08:56PM**")
+# st.write("Data Updated as on **07 October 2024 08:56PM**")
+st.write(f"Data Updated as on **{formatted_date}**")
 
 tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics"])
 
