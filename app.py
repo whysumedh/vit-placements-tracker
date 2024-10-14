@@ -170,10 +170,11 @@ with tab2:
 
     branch_count_company = company_data['Branch'].value_counts()
     st.write(f"**Branches under {company}:**")
+    st.write(f"**Total Selections in {company}: {num_selections_company}**")
     st.table(branch_count_company)
     avg_ctc_company = company_data['CTC'].mean()
 
-    st.write(f"**Total Selections in {company}: {num_selections_company}**")
+    
     st.write(f"**Average CTC in {company}: {avg_ctc_company:.2f} LPA**")
 
     fig = px.pie(values=company_ctc_dist, names=company_ctc_dist.index, title=f'{company} CTC Distribution')
