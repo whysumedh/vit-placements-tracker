@@ -261,7 +261,7 @@ with tab3:
 
 
 
-#st.sidebar.write("Oracle CTC Updated Dev-19.3LPA and Consulting - 9.34LPA")
+# st.sidebar.write("Oracle CTC Updated Dev-19.3LPA and Consulting - 9.34LPA")
 # st.sidebar.write("IBM PPO Updated to 12LPA")
 # st.sidebar.write("Sabre CTC Info Updated SA-16.84 and BA-16.29")
 # st.sidebar.write(""" Thanks for the responses, the following CTC info is updated.""")
@@ -302,11 +302,11 @@ st.markdown("""
         </a>
     </p>
     """, unsafe_allow_html=True)
-# st.markdown("""
-#     <p style='text-align: center;'>
-#         Made by  
-#         <a href='https://www.linkedin.com/in/sumedh-sai-873824a6/'>
-#             Sumedh K
-#         </a>
-#     </p>
-#     """, unsafe_allow_html=True)
+st.markdown("""
+    <p style='text-align: center;'>
+        Made by  
+        <a href='https://www.linkedin.com/in/sumedh-sai-873824a6/'>
+            Sumedh K
+        </a>
+    </p>
+    """, unsafe_allow_html=True)
