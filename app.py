@@ -25,18 +25,18 @@ if commit_date_str:
 else:
     formatted_date = "No commits found."
 
-FILE_PATH = 'cc.txt'
-def get_click_count():
-    if os.path.exists(FILE_PATH):
-        with open(FILE_PATH, 'r') as f:
-            return int(f.read())
-    else:
-        return 0
+# FILE_PATH = 'cc.txt'
+# def get_click_count():
+#     if os.path.exists(FILE_PATH):
+#         with open(FILE_PATH, 'r') as f:
+#             return int(f.read())
+#     else:
+#         return 0
 
-def update_click_count():
-    current_count = get_click_count()
-    with open(FILE_PATH, 'w') as f:
-        f.write(str(current_count + 1))
+# def update_click_count():
+#     current_count = get_click_count()
+#     with open(FILE_PATH, 'w') as f:
+#         f.write(str(current_count + 1))
 
 
 
@@ -315,23 +315,12 @@ st.markdown("""
         </a>
     </p>
     """, unsafe_allow_html=True)
-# st.markdown("""
-#     <p style='text-align: center;'>
-#         Made by  
-#         <a href='https://www.linkedin.com/in/sumedh-sai-873824a6/'>
-#             Sumedh K
-#         </a>
-#     </p>
-#     """, unsafe_allow_html=True)
-st.markdown(f"""
+st.markdown("""
     <p style='text-align: center;'>
         Made by  
-        <a href='#' onclick="fetch('/_click').then(() => location.href = 'https://www.linkedin.com/in/sumedh-sai-873824a6/');">
+        <a href='https://www.linkedin.com/in/sumedh-sai-873824a6/'>
             Sumedh K
         </a>
     </p>
     """, unsafe_allow_html=True)
 
-# Streamlit session to handle click
-if '_click' in st.experimental_get_query_params():
-    update_click_count()
