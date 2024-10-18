@@ -71,7 +71,7 @@ tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements",
 
 with tab1:
     branch_name_mapping = {
-        'BCE': '(BCE)Computer Science Core',
+        'BCE': '(BCE)Computer Science',
         'BAI': '(BAI)CS with AIML',
         'BEC': '(BEC)Electronics(ECE)',
         'BRS': '(BRS)CS with AI & Robotics',
@@ -84,7 +84,12 @@ with tab1:
         'BBS': '(BBS)CS with Business Systems',
         'BLC': '(BLC)Electronics and Computers',
         'BEE': '(BEE)Electrical Engineering',
-        'BCY': '(BCY)CS with Cyber Security',        
+        'BCY': '(BCY)CS with Cyber Security',
+        'BKT': '(BCY)CS with Blockchain',
+        'BCY': '(BCY)CS with Cyber Security',
+        'BCB': '(BCY)CS with Bio',
+        'BCY': '(BCY)CS with Cyber Security',
+        'BHI': '(BCY)CS with Health Informatics',        
     }
     st.header("Branch-wise Placements")
     
