@@ -279,7 +279,7 @@ with tab3:
 
 
 
-# st.sidebar.write("Oracle CTC Updated Dev-19.3LPA and Consulting - 9.34LPA")
+st.sidebar.write("BOFA-147(B.Tech) + 23(M.Tech)")
 # st.sidebar.write("IBM PPO Updated to 12LPA")
 # st.sidebar.write("Sabre CTC Info Updated SA-16.84 and BA-16.29")
 # st.sidebar.write(""" Thanks for the responses, the following CTC info is updated.""")
