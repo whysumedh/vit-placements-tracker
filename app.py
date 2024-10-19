@@ -186,6 +186,8 @@ with tab2:
     company_ctc_dist.index = [f"{ctc} LPA" for ctc in company_ctc_dist.index]
 
     branch_count_company = company_data['Branch'].value_counts()
+    if company == 'Bank of America':
+        st.write("**Note:** BOFA selected 147 (B.Tech) Students + 23 (M.Tech) Students")
     st.write(f"**Branches under {company}:**")
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
     st.table(branch_count_company)
