@@ -40,23 +40,23 @@ else:
 #         f.write(str(current_count + 1))
 
 
-disqus_shortname = "vit-place"
-disqus_code = f"""
-<div id="disqus_thread"></div>
-<script>
-var disqus_config = function () {{
-this.page.url = "https://vit-placements-tracker.streamlit.app";  // Set your public page URL here
-this.page.identifier = window.location.pathname;  // Unique page identifier
-}};
-(function() {{  // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = 'https://{disqus_shortname}.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-}})();
-</script>
-<noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-"""
+# disqus_shortname = "vit-place"
+# disqus_code = f"""
+# <div id="disqus_thread"></div>
+# <script>
+# var disqus_config = function () {{
+# this.page.url = "https://vit-placements-tracker.streamlit.app";  // Set your public page URL here
+# this.page.identifier = window.location.pathname;  // Unique page identifier
+# }};
+# (function() {{  // DON'T EDIT BELOW THIS LINE
+# var d = document, s = d.createElement('script');
+# s.src = 'https://{disqus_shortname}.disqus.com/embed.js';
+# s.setAttribute('data-timestamp', +new Date());
+# (d.head || d.body).appendChild(s);
+# }})();
+# </script>
+# <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+# """
 
 
 
@@ -351,4 +351,4 @@ st.markdown("""
 #     </p>
 #     """, unsafe_allow_html=True)
 
-components.html(disqus_code, height=500)
+# components.html(disqus_code, height=500)
