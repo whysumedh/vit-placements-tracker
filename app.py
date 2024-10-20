@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
+import streamlit.components.v1 as components
 
 import subprocess
 from datetime import datetime
@@ -37,6 +38,25 @@ else:
 #     current_count = get_click_count()
 #     with open(FILE_PATH, 'w') as f:
 #         f.write(str(current_count + 1))
+
+
+disqus_shortname = "vit-place"
+disqus_code = f"""
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {{
+this.page.url = window.location.href;  // Page URL
+this.page.identifier = window.location.pathname;  // Unique page identifier
+}};
+(function() {{  // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://{disqus_shortname}.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+}})();
+</script>
+<noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+"""
 
 
 
@@ -281,7 +301,7 @@ with tab3:
 
 
 
-st.sidebar.write("BOFA-147(B.Tech) + 23(M.Tech)")
+# st.sidebar.write("BOFA-147(B.Tech) + 23(M.Tech)")
 # st.sidebar.write("IBM PPO Updated to 12LPA")
 # st.sidebar.write("Sabre CTC Info Updated SA-16.84 and BA-16.29")
 # st.sidebar.write(""" Thanks for the responses, the following CTC info is updated.""")
@@ -331,3 +351,4 @@ st.markdown("""
 #     </p>
 #     """, unsafe_allow_html=True)
 
+components.html(disqus_code, height=500)
