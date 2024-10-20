@@ -45,7 +45,7 @@ disqus_code = f"""
 <div id="disqus_thread"></div>
 <script>
 var disqus_config = function () {{
-this.page.url = window.location.href;  // Page URL
+this.page.url = "https://vit-placements-tracker.streamlit.app";  // Set your public page URL here
 this.page.identifier = window.location.pathname;  // Unique page identifier
 }};
 (function() {{  // DON'T EDIT BELOW THIS LINE
