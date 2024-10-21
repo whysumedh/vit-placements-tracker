@@ -4,9 +4,8 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit.components.v1 as components
-
 import subprocess
-from datetime import datetime
+import datetime
 
 def get_commit_date(file_path):
     result = subprocess.run(
@@ -21,44 +20,10 @@ file_path = 'google_sheet_data.xlsx'
 commit_date_str = get_commit_date(file_path)
 
 if commit_date_str:
-    commit_date = datetime.strptime(commit_date_str, "%a %b %d %H:%M:%S %Y %z")
+    commit_date = datetime.datetime.strptime(commit_date_str, "%a %b %d %H:%M:%S %Y %z")
     formatted_date = commit_date.strftime("%d %B %I:%M %p")
 else:
     formatted_date = "No commits found."
-
-# FILE_PATH = 'cc.txt'
-# def get_click_count():
-#     if os.path.exists(FILE_PATH):
-#         with open(FILE_PATH, 'r') as f:
-#             return int(f.read())
-#     else:
-#         return 0
-
-# def update_click_count():
-#     current_count = get_click_count()
-#     with open(FILE_PATH, 'w') as f:
-#         f.write(str(current_count + 1))
-
-
-# disqus_shortname = "vit-place"
-# disqus_code = f"""
-# <div id="disqus_thread"></div>
-# <script>
-# var disqus_config = function () {{
-# this.page.url = "https://vit-placements-tracker.streamlit.app";  // Set your public page URL here
-# this.page.identifier = window.location.pathname;  // Unique page identifier
-# }};
-# (function() {{  // DON'T EDIT BELOW THIS LINE
-# var d = document, s = d.createElement('script');
-# s.src = 'https://{disqus_shortname}.disqus.com/embed.js';
-# s.setAttribute('data-timestamp', +new Date());
-# (d.head || d.body).appendChild(s);
-# }})();
-# </script>
-# <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-# """
-
-
 
 df=pd.read_excel('google_sheet_data.xlsx')
 def convert_ctc_to_numeric(ctc):
@@ -84,7 +49,6 @@ with st.expander("Disclaimer", expanded=True):
     - Only 21 Batch B.Tech details have been considered.
     """)
 
-# st.write("Data Updated as on **07 October 2024 08:56PM**")
 st.write(f"Data Updated as on **{formatted_date}**")
 
 tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics"])
@@ -112,17 +76,8 @@ with tab1:
         'BHI': '(BCY)CS with Health Informatics',        
     }
     st.header("Branch-wise Placements")
-    
-    # branch_count = df['Branch'].value_counts()
-    # fig = px.pie(values=branch_count, names=branch_count.index, title='Branch-wise Placement Distribution')
-    # st.plotly_chart(fig)
-
     branch_count = df['Branch'].value_counts()
-    
-    # Replace branch names using the mapping dictionary
     branch_count.index = branch_count.index.to_series().replace(branch_name_mapping)
-    
-    # Create a pie chart
     fig = px.pie(values=branch_count, names=branch_count.index, title='Branch-wise Placement Distribution')
     st.plotly_chart(fig)
     
@@ -157,34 +112,6 @@ with tab1:
     company_stats = company_stats.rename(columns={'num_selections': 'Placed'})
     st.table(company_stats[['Company', 'Placed', 'Average CTC (LPA)']]) 
 
-
-# with tab2:
-#     st.header("Company-wise Placements")
-
-#     company_count = df['Company'].value_counts()
-#     fig = px.pie(values=company_count, names=company_count.index, title='Company-wise Placement Distribution')
-#     st.plotly_chart(fig)
-
-#     company = st.selectbox("Select Company", options=df['Company'].unique())
-
-#     company_data = df[df['Company'] == company]
-
-#     num_selections_company = len(company_data)
-
-#     company_ctc_dist = company_data['CTC'].value_counts()
-#     company_ctc_dist.index = [f"{ctc} LPA" for ctc in company_ctc_dist.index]
-
-#     branch_count_company = company_data['Branch'].value_counts()
-#     st.write(f"**Branches under {company}:**")
-#     st.write(branch_count_company)
-
-#     avg_ctc_company = company_data['CTC'].mean()
-
-#     st.write(f"**Total Selections in {company}: {num_selections_company}**")
-#     st.write(f"**Average CTC in {company}: {avg_ctc_company:.2f} LPA**")
-
-#     fig = px.pie(values=company_ctc_dist, names=company_ctc_dist.index, title=f'{company} CTC Distribution')
-#     st.plotly_chart(fig)
 
 with tab2:
     st.header("Company-wise Placements")
@@ -238,7 +165,6 @@ with tab3:
 
     st.write("**Note that CTC information is not known for some companies (NA) so the below Bar Chart numbers might not add up to the total students placed**")
 
-    # CTC range counts
     ctc_ranges = ['<= 10 LPA','10-15 LPA','15-20 LPA','> 20 LPA']
     ctc_counts = [
         df[df['CTC'] <= 10].shape[0]  ,
@@ -248,7 +174,6 @@ with tab3:
 
     ]
     
-    # Create a simple bar chart
     ctc_data = {
         'CTC Range': ctc_ranges,
         'Number of Students': ctc_counts
@@ -258,7 +183,7 @@ with tab3:
         ctc_data, 
         x='CTC Range', 
         y='Number of Students', 
-        text='Number of Students',  # Display the count directly on the bars
+        text='Number of Students',  
         labels={'CTC Range': 'CTC Range (LPA)', 'Number of Students': 'Number of Students'},
         title="Number of Students Placed by CTC Range"
     )
@@ -272,14 +197,6 @@ with tab3:
     st.write("**Students Placed by Branch:**")
     st.write(branchwise_count)
     
-    # total_companies = df['Company'].nunique()
-    # st.write(f"**Total Number of Companies:** {total_companies}")
-    # st.write("*Please Note That : Some companies came for both PPO and Placements*")
-    
-    # company_list = df['Company'].unique()
-    # company_df = pd.DataFrame(company_list, columns=["Company Name"])  
-    # st.write("**List of Companies:**")
-    # st.table(company_df)
 
     total_companies = df['Company'].nunique()
     st.write(f"**Total Number of Companies:** {total_companies}")
@@ -298,32 +215,6 @@ with tab3:
     st.table(company_stats)
 
 
-
-
-
-# st.sidebar.write("BOFA-147(B.Tech) + 23(M.Tech)")
-# st.sidebar.write("IBM PPO Updated to 12LPA")
-# st.sidebar.write("Sabre CTC Info Updated SA-16.84 and BA-16.29")
-# st.sidebar.write(""" Thanks for the responses, the following CTC info is updated.""")
-# st.sidebar.image("imageppo.png", caption="CTC Changes", use_column_width=True)
-# st.sidebar.write("The CTC Average,Median might be skewed at the end, as we don't know how many will convert some internship offers at the end.")
-# st.sidebar.write("I did update the CTC Info profile-wise if the company is offering various CTCs , you can check that in company-wise stats, company's CTC distribution.")
-
-# st.sidebar.markdown("""
-#     - Please lmk the branch names which are not mentioned in pie chart agenda
-                     
-# Thanks for the responses, the following **CTC info** is updated.  
-# """)
-# st.sidebar.image("imageppo.png", caption="CTC Changes", use_column_width=True)
-
-
-# st.sidebar.markdown("""
-# The **CTC Average** and **Median** might be skewed at the end, as we don't know how many internship offers will convert.
-
-# I did update the CTC info profile-wise. If the company is offering various CTCs, you can check that in the company-wise stats for the company's **CTC distribution**.
-# """)
-
-# Add the image in between the text
 
 st.markdown("<br><br><br><br><br><br>", unsafe_allow_html=True)
 st.markdown("""
@@ -351,4 +242,4 @@ st.markdown("""
 #     </p>
 #     """, unsafe_allow_html=True)
 
-# components.html(disqus_code, height=500)
+
