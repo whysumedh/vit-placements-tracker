@@ -47,6 +47,7 @@ with st.expander("Disclaimer", expanded=True):
                 (Please provide PPO CTC Info in the below gform if yk for the respective company)**
     - **The average,median CTC stats have been considered from available CTC information only.**
     - Only 21 Batch B.Tech details have been considered.
+    - **Stats include all 4 campuses, some companies might vary.**
     """)
 
 st.write(f"Data Updated as on **{formatted_date}**")
