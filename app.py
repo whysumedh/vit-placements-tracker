@@ -131,7 +131,10 @@ with tab2:
     
     male_count = (company_data['Gender'] == 'Male').sum()
     female_count = (company_data['Gender'] == 'Female').sum()
-    gender_ratio = male_count / female_count if female_count > 0 else 'N/A'
+    if female_count > 0:
+        gender_ratio = male_count / female_count
+    else:
+        gender_ratio = None
 
     company_ctc_dist = company_data['CTC'].value_counts()
     company_ctc_dist.index = [f"{ctc} LPA" for ctc in company_ctc_dist.index]
@@ -144,7 +147,7 @@ with tab2:
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
     st.write(f"**Number of Male Selections: {male_count}**")
     st.write(f"**Number of Female Selections: {female_count}**")
-    st.write(f"**Gender Ratio (Male to Female): {gender_ratio:.2f} **" if gender_ratio > 0 else "**Gender Ratio (Male to Female): N/A**")
+    st.write(f"**Gender Ratio (Male to Female): {gender_ratio:.2f}**" if gender_ratio is not None else "**Gender Ratio (Male to Female): N/A**")
 
     
     st.table(branch_count_company)
