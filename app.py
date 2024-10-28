@@ -43,11 +43,12 @@ with st.expander("Disclaimer", expanded=True):
     **Please Note That:**  
     - The data is scraped from placements mail from July-18-2024.
     - It may not be accurate or up-to-date (Will try to update as new selections keep coming).
-    - **The CTC information is not available for most of the Summer PPOs, and Internship Offers.
-                (Please provide PPO CTC Info in the below gform if yk for the respective company)**
-    - **The average,median CTC stats have been considered from available CTC information only.**
+    - **The CTC information is not available for most of the Summer PPOs and Internship Offers.**
+      (Please provide PPO CTC Info in the below gform if you know for the respective company)
+    - **The average and median CTC stats have been considered from available CTC information only.**
     - Only 21 Batch B.Tech details have been considered.
-    - **Stats include all 4 campuses, some companies might vary.**
+    - **Stats include all 4 campuses; some companies might vary.**
+    - Gender Classification is done by Student's name. Used [naampy library](https://pypi.org/project/naampy/) for classification; for some companies, the classifications may not be correct but have good accuracy (as I didn't cross-check for some companies).
     """)
 
 st.write(f"Data Updated as on **{formatted_date}**")
@@ -118,34 +119,41 @@ with tab2:
     st.header("Company-wise Placements")
 
     company_count = df['Company'].value_counts()
-
     fig = px.bar(x=company_count.index, y=company_count.values, 
                  labels={'x': 'Company', 'y': 'Number of Selections'},
                  title='Company-wise Placement Distribution')
     st.plotly_chart(fig)
 
     company = st.selectbox("Select Company", options=df['Company'].unique())
-
     company_data = df[df['Company'] == company]
 
     num_selections_company = len(company_data)
+    
+    male_count = (company_data['Gender'] == 'Male').sum()
+    female_count = (company_data['Gender'] == 'Female').sum()
+    gender_ratio = male_count / female_count if female_count > 0 else 'N/A'
 
     company_ctc_dist = company_data['CTC'].value_counts()
     company_ctc_dist.index = [f"{ctc} LPA" for ctc in company_ctc_dist.index]
 
     branch_count_company = company_data['Branch'].value_counts()
     if company == 'Bank of America':
-        st.write("**Note:** BOFA selected 147 (B.Tech) Students + 23 (M.Tech) Students(In the initial selection list)")
+        st.write("**Note:** BOFA selected 147 (B.Tech) Students + 23 (M.Tech) Students (In the initial selection list)")
+    
     st.write(f"**Branches under {company}:**")
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
-    st.table(branch_count_company)
-    avg_ctc_company = company_data['CTC'].mean()
+    st.write(f"**Number of Male Selections: {male_count}**")
+    st.write(f"**Number of Female Selections: {female_count}**")
+    st.write(f"**Gender Ratio (Male to Female): {gender_ratio:.2f}**")
 
     
+    st.table(branch_count_company)
+    avg_ctc_company = company_data['CTC'].mean()
     st.write(f"**Average CTC in {company}: {avg_ctc_company:.2f} LPA**")
 
     fig = px.pie(values=company_ctc_dist, names=company_ctc_dist.index, title=f'{company} CTC Distribution')
     st.plotly_chart(fig)
+
 
 
 with tab3:
@@ -163,16 +171,26 @@ with tab3:
     
     total_students_placed = df['Reg_No'].count()
     st.write(f"**Total Students Placed:** {total_students_placed}")
+    overall_male_count = (df['Gender'] == 'Male').sum()
+    overall_female_count = (df['Gender'] == 'Female').sum()
+    gender_ratio = overall_male_count / overall_female_count if female_count > 0 else 'N/A'
+
+    st.write(f"**Overall Male Selections:** {overall_male_count}")
+    st.write(f"**Overall Female Selections:** {overall_female_count}")
+    st.write(f"**Overall Gender Ratio (Male to Female): {gender_ratio:.2f}**")
+    avg_male_ctc = df[df['Gender'] == 'Male']['CTC'].mean()
+    avg_female_ctc = df[df['Gender'] == 'Female']['CTC'].mean()
+    st.write(f"**Average Male CTC: {avg_male_ctc:.2f} LPA**" if overall_male_count > 0 else "**Average Male CTC: N/A**")
+    st.write(f"**Average Female CTC: {avg_female_ctc:.2f} LPA**" if overall_female_count > 0 else "**Average Female CTC: N/A**")
 
     st.write("**Note that CTC information is not known for some companies (NA) so the below Bar Chart numbers might not add up to the total students placed**")
 
-    ctc_ranges = ['<= 10 LPA','10-15 LPA','15-20 LPA','> 20 LPA']
+    ctc_ranges = ['<= 10 LPA', '10-15 LPA', '15-20 LPA', '> 20 LPA']
     ctc_counts = [
-        df[df['CTC'] <= 10].shape[0]  ,
+        df[df['CTC'] <= 10].shape[0],
         df[(df['CTC'] > 10) & (df['CTC'] <= 15)].shape[0],
-        df[(df['CTC'] > 15) & (df['CTC'] <= 20)].shape[0], 
-        df[df['CTC'] > 20].shape[0]        
-
+        df[(df['CTC'] > 15) & (df['CTC'] <= 20)].shape[0],
+        df[df['CTC'] > 20].shape[0]
     ]
     
     ctc_data = {
@@ -198,11 +216,10 @@ with tab3:
     st.write("**Students Placed by Branch:**")
     st.write(branchwise_count)
     
-
     total_companies = df['Company'].nunique()
     st.write(f"**Total Number of Companies:** {total_companies}")
     st.write("*Please Note That: Some companies came for both PPO and Placements*")
-    st.write("*Avg CTC is the average of various CTCs offered by the company(if offered various CTCs)*")
+    st.write("*Avg CTC is the average of various CTCs offered by the company (if offered various CTCs)*")
 
     company_stats = df.groupby('Company').agg(
         num_selections=('Reg_No', 'size'),  
@@ -214,6 +231,7 @@ with tab3:
 
     st.write("**List of Companies:**")
     st.table(company_stats)
+
 
 
 
