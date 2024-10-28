@@ -179,11 +179,11 @@ with tab3:
     st.write(f"**Total Students Placed:** {total_students_placed}")
     overall_male_count = (df['Gender'] == 'Male').sum()
     overall_female_count = (df['Gender'] == 'Female').sum()
-    gender_ratio = overall_male_count / overall_female_count if female_count > 0 else 'N/A'
+    overall_gender_ratio = overall_male_count / overall_female_count if female_count > 0 else 'N/A'
 
     st.write(f"**Overall Male Selections:** {overall_male_count}")
     st.write(f"**Overall Female Selections:** {overall_female_count}")
-    st.write(f"**Overall Gender Ratio (Male to Female): {gender_ratio:.2f}**")
+    st.write(f"**Overall Gender Ratio (Male to Female): {overall_gender_ratio:.2f}**")
     avg_male_ctc = df[df['Gender'] == 'Male']['CTC'].mean()
     avg_female_ctc = df[df['Gender'] == 'Female']['CTC'].mean()
     st.write(f"**Average Male CTC: {avg_male_ctc:.2f} LPA**" if overall_male_count > 0 else "**Average Male CTC: N/A**")
