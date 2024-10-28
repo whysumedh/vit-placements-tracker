@@ -147,7 +147,10 @@ with tab2:
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
     st.write(f"**Number of Male Selections: {male_count}**")
     st.write(f"**Number of Female Selections: {female_count}**")
-    st.write(f"**Gender Ratio (Male to Female): {gender_ratio:.2f}**" if gender_ratio is not None else "**Gender Ratio (Male to Female): N/A**")
+    if gender_ratio is not None:
+        st.write(f"**Gender Ratio (Male to Female): {gender_ratio:.2f}**")
+    else:
+        st.write("**Gender Ratio (Male to Female): N/A**")
 
     
     st.table(branch_count_company)
