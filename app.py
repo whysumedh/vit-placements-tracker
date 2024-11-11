@@ -6,6 +6,8 @@ import plotly.graph_objects as go
 import streamlit.components.v1 as components
 import subprocess
 import datetime
+import os
+import json
 
 def get_commit_date(file_path):
     result = subprocess.run(
@@ -71,11 +73,9 @@ with tab1:
         'BLC': '(BLC)Electronics and Computers',
         'BEE': '(BEE)Electrical Engineering',
         'BCY': '(BCY)CS with Cyber Security',
-        'BKT': '(BCY)CS with Blockchain',
-        'BCY': '(BCY)CS with Cyber Security',
-        'BCB': '(BCY)CS with Bio',
-        'BCY': '(BCY)CS with Cyber Security',
-        'BHI': '(BCY)CS with Health Informatics',        
+        'BKT': '(BKT)CS with Blockchain',
+        'BCB': '(BCB)CS with Bio',
+        'BHI': '(BHI)CS with Health Informatics',        
     }
     st.header("Branch-wise Placements")
     branch_count = df['Branch'].value_counts()
@@ -161,6 +161,17 @@ with tab2:
     st.plotly_chart(fig)
 
 
+# count_file = 'last_total_students_placed.json'
+# total_students_placed = df['Reg_No'].count()
+# if os.path.exists(count_file):
+#     try:
+#         with open(count_file, 'r') as f:
+#             previous_data = json.load(f)
+#             previous_count = previous_data.get('total_students_placed', 0)
+#     except json.JSONDecodeError:
+#         previous_count = 0
+# increase = total_students_placed - previous_count
+
 
 with tab3:
     st.header("Overall Placement Statistics")
@@ -174,9 +185,9 @@ with tab3:
     st.write(f"**Maximum CTC:** {overall_max_ctc:.2f} LPA")
     st.write(f"**Minimum CTC:** {overall_min_ctc:.2f} LPA")
     st.write(f"**Median CTC:** {overall_median_ctc:.2f} LPA")
-    
     total_students_placed = df['Reg_No'].count()
     st.write(f"**Total Students Placed:** {total_students_placed}")
+    
     overall_male_count = (df['Gender'] == 'Male').sum()
     overall_female_count = (df['Gender'] == 'Female').sum()
     overall_gender_ratio = overall_male_count / overall_female_count 
