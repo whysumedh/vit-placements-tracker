@@ -75,7 +75,6 @@ else:
     with open(poll_file, "r") as file:
         poll_data = json.load(file)
 
-# Total votes
 total_votes = poll_data["integrate"] + poll_data["separate"]
 
 def calculate_percentage(votes, total):
