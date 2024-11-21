@@ -88,7 +88,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     if not has_voted:
-        if st.button(f"Integrate into the whole current data "):
+        if st.button(f"Integrate into the whole current data ({poll_data['integrate']})"):
             poll_data["integrate"] += 1
             with open(poll_file, "w") as file:
                 json.dump(poll_data, file)
@@ -96,12 +96,12 @@ with col1:
             cookies.save()
             st.rerun()
     else:
-        st.write(f"Integrate into the whole current data ")
+        st.write(f"Integrate into the whole current data ({poll_data['integrate']})")
     st.progress(calculate_percentage(poll_data["integrate"], total_votes))
 
 with col2:
     if not has_voted:
-        if st.button(f"Create a separate section for WITCH Offers "):
+        if st.button(f"Create a separate section for WITCH Offers ({poll_data['separate']})"):
             poll_data["separate"] += 1
             with open(poll_file, "w") as file:
                 json.dump(poll_data, file)
@@ -109,7 +109,7 @@ with col2:
             cookies.save()
             st.rerun()
     else:
-        st.write(f"Create a separate section for WITCH Offers ")
+        st.write(f"Create a separate section for WITCH Offers ({poll_data['separate']})")
     st.progress(calculate_percentage(poll_data["separate"], total_votes))
 
 tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics"])
