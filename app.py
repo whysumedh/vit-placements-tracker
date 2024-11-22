@@ -5,6 +5,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit.components.v1 as components
 from streamlit_cookies_manager import EncryptedCookieManager
+import firebase_admin
+from firebase_admin import credentials, firestore
 import subprocess
 import datetime
 import os
@@ -65,16 +67,29 @@ cookies = EncryptedCookieManager(
 if not cookies.ready():
     st.stop()
 
-poll_file = "poll_data.json"
+if not firebase_admin._apps:
+    cred = credentials.Certificate("fbcreds.json")
+    firebase_admin.initialize_app(cred)
 
-if not os.path.exists(poll_file):
-    poll_data = {"integrate": 0, "separate": 0}
-    with open(poll_file, "w") as file:
-        json.dump(poll_data, file)
-else:
-    with open(poll_file, "r") as file:
-        poll_data = json.load(file)
+db = firestore.client()
 
+def fetch_poll_data():
+    poll_ref = db.collection("poll").document("poll_data")
+    doc = poll_ref.get()
+    if doc.exists:
+        return doc.to_dict()
+    else:
+        initial_data = {"integrate": 109, "separate": 133}
+        poll_ref.set(initial_data)
+        return initial_data
+
+def update_poll_data(option):
+    poll_ref = db.collection("poll").document("poll_data")
+    poll_data = fetch_poll_data()
+    poll_data[option] += 1
+    poll_ref.set(poll_data)
+
+poll_data = fetch_poll_data()
 total_votes = poll_data["integrate"] + poll_data["separate"]
 
 def calculate_percentage(votes, total):
@@ -82,16 +97,14 @@ def calculate_percentage(votes, total):
 
 has_voted = cookies.get("voted", "false") == "true"
 
-st.write("**How Should The Upcoming WITCH(TCS(Only Ninja), Cognizant, etc)(<5LPA) Offers be Updated ?**")
+st.write("**How Should The Upcoming WITCH(TCS(Only Ninja), Cognizant, etc)(<5LPA) Offers be Updated?**")
 
 col1, col2 = st.columns(2)
 
 with col1:
     if not has_voted:
         if st.button(f"Integrate into the whole current data ({poll_data['integrate']})"):
-            poll_data["integrate"] += 1
-            with open(poll_file, "w") as file:
-                json.dump(poll_data, file)
+            update_poll_data("integrate")
             cookies["voted"] = "true"
             cookies.save()
             st.rerun()
@@ -102,15 +115,64 @@ with col1:
 with col2:
     if not has_voted:
         if st.button(f"Create a separate section for WITCH Offers ({poll_data['separate']})"):
-            poll_data["separate"] += 1
-            with open(poll_file, "w") as file:
-                json.dump(poll_data, file)
+            update_poll_data("separate")
             cookies["voted"] = "true"
             cookies.save()
             st.rerun()
     else:
         st.write(f"Create a separate section for WITCH Offers ({poll_data['separate']})")
     st.progress(calculate_percentage(poll_data["separate"], total_votes))
+
+
+# if not cookies.ready():
+#     st.stop()
+
+# poll_file = "poll_data.json"
+
+# if not os.path.exists(poll_file):
+#     poll_data = {"integrate": 0, "separate": 0}
+#     with open(poll_file, "w") as file:
+#         json.dump(poll_data, file)
+# else:
+#     with open(poll_file, "r") as file:
+#         poll_data = json.load(file)
+
+# total_votes = poll_data["integrate"] + poll_data["separate"]
+
+# def calculate_percentage(votes, total):
+#     return int((votes / total) * 100) if total > 0 else 0
+
+# has_voted = cookies.get("voted", "false") == "true"
+
+# st.write("**How Should The Upcoming WITCH(TCS(Only Ninja), Cognizant, etc)(<5LPA) Offers be Updated ?**")
+
+# col1, col2 = st.columns(2)
+
+# with col1:
+#     if not has_voted:
+#         if st.button(f"Integrate into the whole current data ({poll_data['integrate']})"):
+#             poll_data["integrate"] += 1
+#             with open(poll_file, "w") as file:
+#                 json.dump(poll_data, file)
+#             cookies["voted"] = "true"
+#             cookies.save()
+#             st.rerun()
+#     else:
+#         st.write(f"Integrate into the whole current data ({poll_data['integrate']})")
+#     st.progress(calculate_percentage(poll_data["integrate"], total_votes))
+
+# with col2:
+#     if not has_voted:
+#         if st.button(f"Create a separate section for WITCH Offers ({poll_data['separate']})"):
+#             poll_data["separate"] += 1
+#             with open(poll_file, "w") as file:
+#                 json.dump(poll_data, file)
+#             cookies["voted"] = "true"
+#             cookies.save()
+#             st.rerun()
+#     else:
+#         st.write(f"Create a separate section for WITCH Offers ({poll_data['separate']})")
+#     st.progress(calculate_percentage(poll_data["separate"], total_votes))
 
 tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics"])
 
