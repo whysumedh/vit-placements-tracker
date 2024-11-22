@@ -82,7 +82,7 @@ def calculate_percentage(votes, total):
 
 has_voted = cookies.get("voted", "false") == "true"
 
-st.write("**How Should The Upcoming WITCH(TCS(Only Ninja), Cognizant, etc) Offers be Updated ?**")
+st.write("**How Should The Upcoming WITCH(TCS(Only Ninja), Cognizant, etc)(<5LPA) Offers be Updated ?**")
 
 col1, col2 = st.columns(2)
 
