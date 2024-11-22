@@ -67,9 +67,9 @@ cookies = EncryptedCookieManager(
 if not cookies.ready():
     st.stop()
 
-fbcreds = st.secrets["firebase"]
+
 if not firebase_admin._apps:
-    cred = credentials.Certificate(fbcreds)
+    cred = credentials.Certificate("fbcredss.json")
     firebase_admin.initialize_app(cred)
 
 db = firestore.client()
