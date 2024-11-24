@@ -43,7 +43,7 @@ df['CTC'] = df['CTC'].apply(convert_ctc_to_numeric)
 
 st.set_page_config(page_title="VIT Placements" ,page_icon="favicon-16x16.png",layout="wide")
 
-st.title("VIT Placements")
+st.title("VIT Placements 2024-2025")
 
 with st.expander("Disclaimer", expanded=True):
     st.markdown("""
