@@ -98,31 +98,31 @@ def calculate_percentage(votes, total):
 
 has_voted = cookies.get("voted", "false") == "true"
 
-st.write("**How Should The Upcoming WITCH(TCS(Only Ninja), Cognizant, etc)(<5LPA) Offers be Updated?**")
+# st.write("**How Should The Upcoming WITCH(TCS(Only Ninja), Cognizant, etc)(<5LPA) Offers be Updated?**")
 
-col1, col2 = st.columns(2)
+# col1, col2 = st.columns(2)
 
-with col1:
-    if not has_voted:
-        if st.button(f"Integrate into the whole current data ({poll_data['integrate']})"):
-            update_poll_data("integrate")
-            cookies["voted"] = "true"
-            cookies.save()
-            st.rerun()
-    else:
-        st.write(f"Integrate into the whole current data ({poll_data['integrate']})")
-    st.progress(calculate_percentage(poll_data["integrate"], total_votes))
+# with col1:
+#     if not has_voted:
+#         if st.button(f"Integrate into the whole current data ({poll_data['integrate']})"):
+#             update_poll_data("integrate")
+#             cookies["voted"] = "true"
+#             cookies.save()
+#             st.rerun()
+#     else:
+#         st.write(f"Integrate into the whole current data ({poll_data['integrate']})")
+#     st.progress(calculate_percentage(poll_data["integrate"], total_votes))
 
-with col2:
-    if not has_voted:
-        if st.button(f"Create a separate section for WITCH Offers ({poll_data['separate']})"):
-            update_poll_data("separate")
-            cookies["voted"] = "true"
-            cookies.save()
-            st.rerun()
-    else:
-        st.write(f"Create a separate section for WITCH Offers ({poll_data['separate']})")
-    st.progress(calculate_percentage(poll_data["separate"], total_votes))
+# with col2:
+#     if not has_voted:
+#         if st.button(f"Create a separate section for WITCH Offers ({poll_data['separate']})"):
+#             update_poll_data("separate")
+#             cookies["voted"] = "true"
+#             cookies.save()
+#             st.rerun()
+#     else:
+#         st.write(f"Create a separate section for WITCH Offers ({poll_data['separate']})")
+#     st.progress(calculate_percentage(poll_data["separate"], total_votes))
 
 
 # if not cookies.ready():
