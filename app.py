@@ -263,7 +263,7 @@ with tab2:
     if company == 'Bank of America':
         st.write("**Note:** BOFA selected 147 (B.Tech) Students + 23 (M.Tech) Students (In the initial selection list)")
     
-    st.write(f"**Branches under {company}:**")
+    
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
     st.write(f"**Number of Male Selections: {male_count}**")
     st.write(f"**Number of Female Selections: {female_count}**")
@@ -272,7 +272,7 @@ with tab2:
     else:
         st.write("**Gender Ratio (Male to Female): N/A**")
 
-    
+    st.write(f"**Branches under {company}:**")
     st.table(branch_count_company)
     avg_ctc_company = company_data['CTC'].mean()
     st.write(f"**Average CTC in {company}: {avg_ctc_company:.2f} LPA**")
