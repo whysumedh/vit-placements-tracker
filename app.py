@@ -262,6 +262,8 @@ with tab2:
     branch_count_company = company_data['Branch'].value_counts()
     if company == 'Bank of America':
         st.write("**Note:** BOFA selected 147 (B.Tech) Students + 23 (M.Tech) Students (In the initial selection list)")
+    if company == 'TCS Digital/Prime':
+        st.write("**Note:** B.Tech Digital Selections: 406 and B.Tech Prime Selections : 44")
     
     
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
