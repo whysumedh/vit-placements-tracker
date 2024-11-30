@@ -195,7 +195,8 @@ with tab1:
         'BCY': '(BCY)CS with Cyber Security',
         'BKT': '(BKT)CS with Blockchain',
         'BCB': '(BCB)CS with Bio',
-        'BHI': '(BHI)CS with Health Informatics',        
+        'BHI': '(BHI)CS with Health Informatics',
+        'BBT': '(BBT)Biotechnology'        
     }
     st.header("Branch-wise Placements")
     branch_count = df['Branch'].value_counts()
