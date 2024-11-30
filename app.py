@@ -179,34 +179,41 @@ tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements",
 
 with tab1:
     branch_name_mapping = {
-        'BCE': '(BCE)Computer Science',
-        'BAI': '(BAI)CS with AIML',
-        'BEC': '(BEC)Electronics(ECE)',
-        'BRS': '(BRS)CS with AI & Robotics',
-        'BIT': '(BIT)Information Technology',
-        'BCI': '(BCI)CS with Info Security',
-        'BPS': '(BPS)CS with Cyber Physical Systems',
-        'BDS': '(BDS)CS with Data Science',
-        'BCT': '(BCT)CS with IOT',
-        'BME': '(BME)Mechanical Engineering',
-        'BBS': '(BBS)CS with Business Systems',
-        'BLC': '(BLC)Electronics and Computers',
-        'BEE': '(BEE)Electrical Engineering',
-        'BCY': '(BCY)CS with Cyber Security',
-        'BKT': '(BKT)CS with Blockchain',
-        'BCB': '(BCB)CS with Bio',
-        'BHI': '(BHI)CS with Health Informatics',
-        'BBT': '(BBT)Biotechnology'        
+        'BCE': '(BCE) Computer Science & Engineering',
+        'BAI': '(BAI) CS with AIML',
+        'BEC': '(BEC) Electronics(ECE)',
+        'BRS': '(BRS) CSE with AI & Robotics',
+        'BIT': '(BIT) Information Technology',
+        'BCI': '(BCI) CSE with Info Security',
+        'BPS': '(BPS) CSE with Cyber Physical Systems',
+        'BDS': '(BDS) CSE with Data Science',
+        'BCT': '(BCT) CSE with IOT',
+        'BME': '(BME) Mechanical Engineering',
+        'BBS': '(BBS) CSE with Business Systems',
+        'BLC': '(BLC) Electronics and Computers',
+        'BEE': '(BEE) Electrical Engineering',
+        'BCY': '(BCY) CSE with Cyber Security',
+        'BKT': '(BKT) CSE with Blockchain',
+        'BCB': '(BCB) CSE with Bio',
+        'BHI': '(BHI) CSE with Health Informatics',
+        'BBT': '(BBT) Biotechnology'        
     }
     st.header("Branch-wise Placements")
     branch_count = df['Branch'].value_counts()
     branch_count.index = branch_count.index.to_series().replace(branch_name_mapping)
     fig = px.pie(values=branch_count, names=branch_count.index, title='Branch-wise Placement Distribution')
     st.plotly_chart(fig)
+    dropdown_options = [
+        branch_name_mapping.get(branch, branch) for branch in df['Branch'].unique()
+    ]
     
-    branch = st.selectbox("Select Branch", options=df['Branch'].unique())
+    # Dropdown selection
+    selected_branch_display = st.selectbox("Select Branch", options=dropdown_options)
     
-    branch_data = df[df['Branch'] == branch]
+    # Reverse mapping to raw branch code
+    selected_branch = {v: k for k, v in branch_name_mapping.items()}.get(selected_branch_display, selected_branch_display)
+    
+    branch_data = df[df['Branch'] == selected_branch]
     
     avg_ctc = branch_data['CTC'].mean()
     max_ctc = branch_data['CTC'].max()
@@ -215,7 +222,7 @@ with tab1:
     num_selections = len(branch_data)
 
     
-    st.write(f"**Statistics for {branch}:**")
+    st.write(f"**Statistics for {selected_branch_display}:**")
     st.write(f"**Number of Selections: {num_selections}**")
     st.write(f"Average CTC: {avg_ctc:.2f} LPA")
     st.write(f"Maximum CTC: {max_ctc:.2f} LPA")
@@ -228,7 +235,7 @@ with tab1:
     ).reset_index()
     company_stats['avg_ctc'] = company_stats['avg_ctc'].map(lambda x: f"{x:.1f}")
 
-    st.write(f"**Companies and CTC offered under {branch}:**")
+    st.write(f"**Companies and CTC offered under {selected_branch_display}:**")
     st.write("*Avg CTC is the average of various CTCs offered by the company(if offered various CTCs)*")
 
     company_stats = company_stats.rename(columns={'avg_ctc': 'Average CTC (LPA)'})
