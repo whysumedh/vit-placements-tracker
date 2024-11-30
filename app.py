@@ -390,12 +390,23 @@ with tab3:
         num_selections=('Reg_No', 'size'),  
         avg_ctc=('CTC', 'mean')  
     ).reset_index()
-    company_stats['avg_ctc'] = company_stats['avg_ctc'].map(lambda x: f"{x:.1f}")
+    company_stats['avg_ctc'] = company_stats['avg_ctc'].astype(float)
 
-    company_stats.rename(columns={'Company': 'Company Name', 'num_selections': 'Placed', 'avg_ctc': 'Avg CTC (LPA)'}, inplace=True)
+    sort_options = {
+    'Company': 'Company',
+    'Selections': 'num_selections',
+    'Average CTC': 'avg_ctc'
+    }
+    selected_sort_option = st.selectbox("Sort by", options=['Company', 'Selections', 'Average CTC'],index=0)
 
-    st.write("**List of Companies:**")
-    st.table(company_stats)
+    ascending_order = selected_sort_option == 'Company'  
+    sorted_company_stats = company_stats.sort_values(by=sort_options[selected_sort_option], ascending=ascending_order)
+
+    sorted_company_stats['avg_ctc'] = sorted_company_stats['avg_ctc'].map(lambda x: f"{x:.1f}")
+    sorted_company_stats = sorted_company_stats.rename(columns={'avg_ctc': 'Average CTC (LPA)'})
+    sorted_company_stats = sorted_company_stats.rename(columns={'num_selections': 'Placed'})
+
+    st.table(sorted_company_stats[['Company', 'Placed', 'Average CTC (LPA)']])
 
 
 
