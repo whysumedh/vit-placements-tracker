@@ -180,7 +180,7 @@ tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements",
 with tab1:
     branch_name_mapping = {
         'BCE': '(BCE) Computer Science & Engineering',
-        'BAI': '(BAI) CS with AIML',
+        'BAI': '(BAI) CSE with AIML',
         'BEC': '(BEC) Electronics(ECE)',
         'BRS': '(BRS) CSE with AI & Robotics',
         'BIT': '(BIT) Information Technology',
