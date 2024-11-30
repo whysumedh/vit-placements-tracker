@@ -328,29 +328,34 @@ with tab3:
     overall_max_ctc = df['CTC'].max()
     overall_min_ctc = df['CTC'].min()
     overall_median_ctc = df['CTC'].median()
-    
-    st.write(f"**Average CTC:** {overall_avg_ctc:.2f} LPA")
-    st.write(f"**Maximum CTC:** {overall_max_ctc:.2f} LPA")
-    st.write(f"**Minimum CTC:** {overall_min_ctc:.2f} LPA")
-    st.write(f"**Median CTC:** {overall_median_ctc:.2f} LPA")
     total_students_placed = df['Reg_No'].count()
-    st.write(f"**Total Students Placed:** {total_students_placed}")
-    
     overall_male_count = (df['Gender'] == 'Male').sum()
     overall_female_count = (df['Gender'] == 'Female').sum()
     overall_gender_ratio = overall_male_count / overall_female_count 
-
-    st.write(f"**Overall Male Selections:** {overall_male_count}")
-    st.write(f"**Overall Female Selections:** {overall_female_count}")
-    st.write(f"**Overall Gender Ratio (Male to Female): {overall_gender_ratio:.2f}**")
     avg_male_ctc = df[df['Gender'] == 'Male']['CTC'].mean()
     avg_female_ctc = df[df['Gender'] == 'Female']['CTC'].mean()
-    st.write(f"**Average Male CTC: {avg_male_ctc:.2f} LPA**" if overall_male_count > 0 else "**Average Male CTC: N/A**")
-    st.write(f"**Average Female CTC: {avg_female_ctc:.2f} LPA**" if overall_female_count > 0 else "**Average Female CTC: N/A**")
+    
+    
+    
+    col1, col2 = st.columns([0.5, 1])
 
+    with col1:
+        st.write(f"**Average CTC:** {overall_avg_ctc:.2f} LPA")
+        st.write(f"**Maximum CTC:** {overall_max_ctc:.2f} LPA")
+        st.write(f"**Minimum CTC:** {overall_min_ctc:.2f} LPA")
+        st.write(f"**Median CTC:** {overall_median_ctc:.2f} LPA")
+        st.write(f"**Total Students Placed:** {total_students_placed}")
+    
+    with col2:
+        st.write(f"**Overall Male Selections:** {overall_male_count}")
+        st.write(f"**Overall Female Selections:** {overall_female_count}")
+        st.write(f"**Overall Gender Ratio (Male to Female): {overall_gender_ratio:.2f}**")
+        st.write(f"**Average Male CTC: {avg_male_ctc:.2f} LPA**" if overall_male_count > 0 else "**Average Male CTC: N/A**")
+        st.write(f"**Average Female CTC: {avg_female_ctc:.2f} LPA**" if overall_female_count > 0 else "**Average Female CTC: N/A**")
+    
+    st.markdown("<br><br>", unsafe_allow_html=True)
     st.write("**Note that CTC information is not known for some companies (NA) so the below Bar Chart numbers might not add up to the total students placed**")
-
-    ctc_ranges = ['<= 10 LPA', '10-15 LPA', '15-20 LPA', '> 20 LPA']
+    ctc_ranges = ['<= 10 LPA', '10-15(Inclusive) LPA', '15-20(Inclusive)LPA', '> 20 LPA']
     ctc_counts = [
         df[df['CTC'] <= 10].shape[0],
         df[(df['CTC'] > 10) & (df['CTC'] <= 15)].shape[0],
