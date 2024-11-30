@@ -49,13 +49,12 @@ with st.expander("Disclaimer", expanded=True):
     st.markdown("""
     **Please Note That:**  
     - The data is scraped from placements mail from July-18-2024.
-    - It may not be accurate or up-to-date (Will try to update as new selections keep coming).
+    - Statistics may not be accurate or up-to-date or even wrong.
     - **The CTC information is not available for most of the Summer PPOs and Internship Offers.**
-      (Please provide PPO CTC Info in the below gform if you know for the respective company)
     - **The average and median CTC stats have been considered from available CTC information only.**
     - Only 21 Batch B.Tech details have been considered.
     - **Stats include all 4 campuses; some companies might vary.**
-    - Gender Classification is done by Student's name. Used [naampy library](https://pypi.org/project/naampy/) for classification; for some companies, the classifications may not be correct but have good accuracy (as I didn't cross-check for some companies).
+    - Gender Classification is done by Student's name. Used [naampy library](https://pypi.org/project/naampy/) for classification; Note that the classifications may not be accurate.
     """)
 
 st.write(f"Data Updated as on **{formatted_date}**")
