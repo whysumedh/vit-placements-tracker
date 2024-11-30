@@ -240,7 +240,26 @@ with tab1:
 
     company_stats = company_stats.rename(columns={'avg_ctc': 'Average CTC (LPA)'})
     company_stats = company_stats.rename(columns={'num_selections': 'Placed'})
-    st.table(company_stats[['Company', 'Placed', 'Average CTC (LPA)']]) 
+    company_stats['Average CTC (LPA)'] = company_stats['Average CTC (LPA)'].astype(float)
+
+    # Sorting options
+    sort_options = {
+    'Company Name': 'Company',
+    'Number of Selections': 'Placed',
+    'Average CTC': 'Average CTC (LPA)'
+    }
+    selected_sort_option = st.selectbox("Sort by", options=['Company Name', 'Number of Selections', 'Average CTC'],index=0)
+
+    # Sort the DataFrame based on user selection
+    ascending_order = selected_sort_option == 'Company Name'  # Ascending for Company Name, Descending otherwise
+    sorted_company_stats = company_stats.sort_values(by=sort_options[selected_sort_option], ascending=ascending_order)
+
+    # Convert 'Average CTC (LPA)' back to formatted strings for display
+    sorted_company_stats['Average CTC (LPA)'] = sorted_company_stats['Average CTC (LPA)'].map(lambda x: f"{x:.1f}")
+
+    # Display the sorted table
+    st.table(sorted_company_stats[['Company', 'Placed', 'Average CTC (LPA)']])
+
 
 
 with tab2:
