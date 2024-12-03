@@ -51,6 +51,7 @@ with st.expander("Disclaimer", expanded=True):
     - The data is scraped from placements mail from July-18-2024.
     - Statistics may not be accurate or up-to-date or even wrong.
     - **The CTC information is not available for most of the Summer PPOs and Internship Offers.**
+    - **Some of The CTC Information(If not known) is taken from Internet Public Posts for some Companies**
     - **The average and median CTC stats have been considered from available CTC information only.**
     - Only 21 Batch B.Tech details have been considered.
     - **Stats include all 4 campuses; some companies might vary.**
@@ -58,6 +59,8 @@ with st.expander("Disclaimer", expanded=True):
     """)
 
 st.write(f"Data Updated as on **{formatted_date}**")
+st.write(f"**Note:** TCS Digital/Prime have been seperated and WITCH/Regular Offers will be updated soon.")
+
 cookies = EncryptedCookieManager(
     prefix="poll_",  
     password="your_secret_password"  
@@ -206,10 +209,8 @@ with tab1:
         branch_name_mapping.get(branch, branch) for branch in df['Branch'].unique()
     ]
     
-    # Dropdown selection
     selected_branch_display = st.selectbox("Select Branch", options=dropdown_options)
     
-    # Reverse mapping to raw branch code
     selected_branch = {v: k for k, v in branch_name_mapping.items()}.get(selected_branch_display, selected_branch_display)
     
     branch_data = df[df['Branch'] == selected_branch]
@@ -241,7 +242,6 @@ with tab1:
     company_stats = company_stats.rename(columns={'num_selections': 'Placed'})
     company_stats['Average CTC (LPA)'] = company_stats['Average CTC (LPA)'].astype(float)
 
-    # Sorting options
     sort_options = {
     'Company Name': 'Company',
     'Number of Selections': 'Placed',
@@ -249,14 +249,11 @@ with tab1:
     }
     selected_sort_option = st.selectbox("Sort by", options=['Company Name', 'Number of Selections', 'Average CTC'],index=0)
 
-    # Sort the DataFrame based on user selection
-    ascending_order = selected_sort_option == 'Company Name'  # Ascending for Company Name, Descending otherwise
+    ascending_order = selected_sort_option == 'Company Name' 
     sorted_company_stats = company_stats.sort_values(by=sort_options[selected_sort_option], ascending=ascending_order)
 
-    # Convert 'Average CTC (LPA)' back to formatted strings for display
     sorted_company_stats['Average CTC (LPA)'] = sorted_company_stats['Average CTC (LPA)'].map(lambda x: f"{x:.1f}")
 
-    # Display the sorted table
     st.table(sorted_company_stats[['Company', 'Placed', 'Average CTC (LPA)']])
 
 
