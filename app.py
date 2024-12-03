@@ -33,6 +33,7 @@ else:
     formatted_date = "No commits found."
 
 df=pd.read_excel('google_sheet_data.xlsx')
+wdf=pd.read_excel('WITCH-P.xlsx')
 def convert_ctc_to_numeric(ctc):
     try:
         return float(ctc.replace('LPA', '').strip())
@@ -40,6 +41,8 @@ def convert_ctc_to_numeric(ctc):
         return np.nan
 
 df['CTC'] = df['CTC'].apply(convert_ctc_to_numeric)
+wdf['CTC'] = wdf['CTC'].apply(convert_ctc_to_numeric)
+
 
 st.set_page_config(page_title="VIT Placements" ,layout="wide")
 
@@ -64,44 +67,44 @@ with st.expander("Updates", expanded=False):
     st.write(f"**Note:** Okta CTC corrected to 43.2LPA")
 
 
-cookies = EncryptedCookieManager(
-    prefix="poll_",  
-    password="your_secret_password"  
-)
+# cookies = EncryptedCookieManager(
+#     prefix="poll_",  
+#     password="your_secret_password"  
+# )
 
-if not cookies.ready():
-    st.stop()
+# if not cookies.ready():
+#     st.stop()
 
 
-if not firebase_admin._apps:
-    cred = credentials.Certificate("fbcredss.json")
-    firebase_admin.initialize_app(cred)
+# if not firebase_admin._apps:
+#     cred = credentials.Certificate("fbcredss.json")
+#     firebase_admin.initialize_app(cred)
 
-db = firestore.client()
+# db = firestore.client()
 
-def fetch_poll_data():
-    poll_ref = db.collection("poll").document("poll_data")
-    doc = poll_ref.get()
-    if doc.exists:
-        return doc.to_dict()
-    else:
-        initial_data = {"integrate": 109, "separate": 133}
-        poll_ref.set(initial_data)
-        return initial_data
+# def fetch_poll_data():
+#     poll_ref = db.collection("poll").document("poll_data")
+#     doc = poll_ref.get()
+#     if doc.exists:
+#         return doc.to_dict()
+#     else:
+#         initial_data = {"integrate": 109, "separate": 133}
+#         poll_ref.set(initial_data)
+#         return initial_data
 
-def update_poll_data(option):
-    poll_ref = db.collection("poll").document("poll_data")
-    poll_data = fetch_poll_data()
-    poll_data[option] += 1
-    poll_ref.set(poll_data)
+# def update_poll_data(option):
+#     poll_ref = db.collection("poll").document("poll_data")
+#     poll_data = fetch_poll_data()
+#     poll_data[option] += 1
+#     poll_ref.set(poll_data)
 
-poll_data = fetch_poll_data()
-total_votes = poll_data["integrate"] + poll_data["separate"]
+# poll_data = fetch_poll_data()
+# total_votes = poll_data["integrate"] + poll_data["separate"]
 
-def calculate_percentage(votes, total):
-    return int((votes / total) * 100) if total > 0 else 0
+# def calculate_percentage(votes, total):
+#     return int((votes / total) * 100) if total > 0 else 0
 
-has_voted = cookies.get("voted", "false") == "true"
+# has_voted = cookies.get("voted", "false") == "true"
 
 # st.write("**How Should The Upcoming WITCH(TCS(Only Ninja), Cognizant, etc)(<5LPA) Offers be Updated?**")
 
@@ -180,7 +183,7 @@ has_voted = cookies.get("voted", "false") == "true"
 #         st.write(f"Create a separate section for WITCH Offers ({poll_data['separate']})")
 #     st.progress(calculate_percentage(poll_data["separate"], total_votes))
 
-tab1, tab2, tab3 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics"])
+tab1, tab2, tab3, tab4 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics", "WITCH Offers"])
 
 with tab1:
     branch_name_mapping = {
@@ -414,6 +417,133 @@ with tab3:
     sorted_company_stats = sorted_company_stats.rename(columns={'num_selections': 'Placed'})
 
     st.table(sorted_company_stats[['Company', 'Placed', 'Average CTC (LPA)']])
+
+with tab4:
+
+    stabs = st.tabs(["Branch-wise Offers", "Company-wise Offers", "Campus-wise Offers"])
+    with stabs[0]:
+        branch_name_mapping = {
+        'BCE': '(BCE) Computer Science & Engineering',
+        'BAI': '(BAI) CSE with AIML',
+        'BEC': '(BEC) Electronics(ECE)',
+        'BRS': '(BRS) CSE with AI & Robotics',
+        'BIT': '(BIT) Information Technology',
+        'BCI': '(BCI) CSE with Info Security',
+        'BPS': '(BPS) CSE with Cyber Physical Systems',
+        'BDS': '(BDS) CSE with Data Science',
+        'BCT': '(BCT) CSE with IOT',
+        'BME': '(BME) Mechanical Engineering',
+        'BBS': '(BBS) CSE with Business Systems',
+        'BLC': '(BLC) Electronics and Computers',
+        'BEE': '(BEE) Electrical Engineering',
+        'BCY': '(BCY) CSE with Cyber Security',
+        'BKT': '(BKT) CSE with Blockchain',
+        'BCB': '(BCB) CSE with Bio',
+        'BHI': '(BHI) CSE with Health Informatics',
+        'BBT': '(BBT) Biotechnology',
+        'BSA': '(BSA) CSE with Cloud Computing & Automation'      
+    }
+        st.header("Branch-wise Placements")
+        w_branch_count = wdf['Branch'].value_counts()
+        w_branch_count.index = w_branch_count.index.to_series().replace(branch_name_mapping)
+        fig = px.pie(values=w_branch_count, names=w_branch_count.index, title='Branch-wise Placement Distribution')
+        st.plotly_chart(fig)
+        dropdown_options = [
+            branch_name_mapping.get(branch, branch) for branch in wdf['Branch'].unique()
+        ]
+        
+        selected_branch_display = st.selectbox("Select Branch", options=dropdown_options)
+        
+        selected_branch = {v: k for k, v in branch_name_mapping.items()}.get(selected_branch_display, selected_branch_display)
+        
+        w_branch_data = wdf[wdf['Branch'] == selected_branch]
+        
+        avg_ctc = w_branch_data['CTC'].mean()
+        max_ctc = w_branch_data['CTC'].max()
+        min_ctc = w_branch_data['CTC'].min()
+        median_ctc = w_branch_data['CTC'].median()
+        num_selections = len(w_branch_data)
+
+        
+        st.write(f"**Statistics for {selected_branch_display}:**")
+        st.write(f"**Number of Selections: {num_selections}**")
+        st.write(f"Average CTC: {avg_ctc:.2f} LPA")
+        st.write(f"Maximum CTC: {max_ctc:.2f} LPA")
+        st.write(f"Minimum CTC: {min_ctc:.2f} LPA")
+        st.write(f"Median CTC: {median_ctc:.2f} LPA")
+
+        company_stats = w_branch_data.groupby('Company').agg(
+            num_selections=('CTC', 'size'),  
+            avg_ctc=('CTC', 'mean')  
+        ).reset_index()
+        company_stats['avg_ctc'] = company_stats['avg_ctc'].map(lambda x: f"{x:.1f}")
+
+        st.write(f"**Companies and CTC offered under {selected_branch_display}:**")
+        st.write("*Avg CTC is the average of various CTCs offered by the company(if offered various CTCs)*")
+
+        company_stats = company_stats.rename(columns={'avg_ctc': 'Average CTC (LPA)'})
+        company_stats = company_stats.rename(columns={'num_selections': 'Placed'})
+        company_stats['Average CTC (LPA)'] = company_stats['Average CTC (LPA)'].astype(float)
+
+        sort_options = {
+        'Company_Name': 'Company',
+        'Number of Selections': 'Placed',
+        'Average CTC': 'Average CTC (LPA)'
+        }
+        selected_sort_option = st.selectbox("Sort by", options=['Company_Name', 'Number of Selections', 'Average CTC'],index=0)
+
+        ascending_order = selected_sort_option == 'Company Name' 
+        sorted_company_stats = company_stats.sort_values(by=sort_options[selected_sort_option], ascending=ascending_order)
+
+        sorted_company_stats['Average CTC (LPA)'] = sorted_company_stats['Average CTC (LPA)'].map(lambda x: f"{x:.1f}")
+
+        st.table(sorted_company_stats[['Company', 'Placed', 'Average CTC (LPA)']])
+    with stabs[1]:
+        st.header("Company-wise Placements")
+
+        w_company_count = wdf['Company'].value_counts()
+        fig = px.bar(x=w_company_count.index, y=w_company_count.values, 
+                    labels={'x': 'Company', 'y': 'Number of Selections'},
+                    title='Company-wise Placement Distribution')
+        st.plotly_chart(fig)
+
+        company = st.selectbox("Select Company", options=wdf['Company'].unique())
+        company_data = wdf[wdf['Company'] == company]
+
+        num_selections_company = len(company_data)
+
+        company_ctc_dist = company_data['CTC'].value_counts()
+        company_ctc_dist.index = [f"{ctc} LPA" for ctc in company_ctc_dist.index]
+        avg_ctc_company = company_data['CTC'].mean()
+        branch_count_company = company_data['Branch'].value_counts()
+        st.write(f"**Total Selections in {company}: {num_selections_company}**")
+        st.write(f"**Average CTC in {company}: {avg_ctc_company:.2f} LPA**")
+        fig = px.pie(values=company_ctc_dist, names=company_ctc_dist.index, title=f'{company} CTC Distribution')
+        st.table(company_ctc_dist)
+        st.write(f"**Branches under {company}:**")
+        st.table(branch_count_company)
+        
+        
+    with stabs[2]:
+        st.title("Campus-wise Offers")
+        campus_counts = wdf["Campus"].value_counts().reset_index()
+        campus_counts.columns = ["Campus", "Count"]
+
+        st.subheader("Number of Students Selected by Campus")
+        st.table(campus_counts)
+        bar_chart = px.bar(
+            campus_counts,
+            x="Campus",
+            y="Count",
+            title="Campus-wise Offers",
+            color="Campus",
+            text="Count",
+            color_discrete_sequence=px.colors.qualitative.Set3,
+        )
+        bar_chart.update_layout(xaxis_title="Campus", yaxis_title="Number of Students")
+        st.plotly_chart(bar_chart)
+    
+
 
 
 
