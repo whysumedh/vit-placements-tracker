@@ -433,6 +433,8 @@ with tab4:
     if view_option == "Highest CTC For the Students with Multiple Offers":
         wdf = preprocess_and_filter_dataframe(wdf)
     w_total_students_placed = wdf['Reg_No'].count()
+
+    st.write("**Note**:  LTIMindTree (4LPA) is selected in the Dataframe as it conflicts with Cognizant(4LPA)")
     st.write(f"**Overall Witch Offers (Only B.Tech):** {w_total_students_placed}")
 
     stabs = st.tabs(["Branch-wise Offers", "Company-wise Offers", "Campus-wise Offers"])
