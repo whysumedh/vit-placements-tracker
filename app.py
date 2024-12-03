@@ -43,6 +43,12 @@ def convert_ctc_to_numeric(ctc):
 df['CTC'] = df['CTC'].apply(convert_ctc_to_numeric)
 wdf['CTC'] = wdf['CTC'].apply(convert_ctc_to_numeric)
 
+def preprocess_and_filter_dataframe(df):
+    df['CTC'] = df['CTC'].fillna('').astype(str)
+    df['CTC'] = df['CTC'].str.replace('LPA', '', regex=False)
+    df['CTC'] = pd.to_numeric(df['CTC'], errors='coerce')
+    return df.loc[df.groupby('Reg_No')['CTC'].idxmax()].reset_index(drop=True)
+
 
 st.set_page_config(page_title="VIT Placements" ,layout="wide")
 
@@ -419,9 +425,12 @@ with tab3:
     st.table(sorted_company_stats[['Company', 'Placed', 'Average CTC (LPA)']])
 
 with tab4:
+    view_option = st.radio("Select DataFrame :", ("Overall Offers", "Highest CTC For the Students with Multiple Offers"))
+    if view_option == "Highest CTC For the Students with Multiple Offers":
+        wdf = preprocess_and_filter_dataframe(wdf)
     w_total_students_placed = wdf['Reg_No'].count()
     st.write(f"**Overall Witch Offers (Only B.Tech):** {w_total_students_placed}")
-    st.write(f"The current statistics include redundant offers per student. An option will be added to display statistics based only on the scenario where each student chooses the offer with the highest CTC. ")
+
     stabs = st.tabs(["Branch-wise Offers", "Company-wise Offers", "Campus-wise Offers"])
     with stabs[0]:
         branch_name_mapping = {
