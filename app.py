@@ -63,7 +63,7 @@ with st.expander("Disclaimer", expanded=True):
 
 st.write(f"Data Updated as on **{formatted_date}**")
 with st.expander("Updates", expanded=False):
-    st.write(f"**Note:** TCS Digital/Prime have been seperated")
+    st.write(f"**Note:** Incedo Inc Details Updated")
     st.write(f"**Note:** Okta CTC corrected to 43.2LPA")
 
 
@@ -421,7 +421,7 @@ with tab3:
 with tab4:
     w_total_students_placed = wdf['Reg_No'].count()
     st.write(f"**Overall Witch Offers (Only B.Tech):** {w_total_students_placed}")
-    st.write(f"The current statistics include redundant offers per student. A feature will be added to display statistics based only on the scenario where each student selects the offer with the highest CTC. ")
+    st.write(f"The current statistics include redundant offers per student. An option will be added to display statistics based only on the scenario where each student chooses the offer with the highest CTC. ")
     stabs = st.tabs(["Branch-wise Offers", "Company-wise Offers", "Campus-wise Offers"])
     with stabs[0]:
         branch_name_mapping = {
