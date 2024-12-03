@@ -59,7 +59,10 @@ with st.expander("Disclaimer", expanded=True):
     """)
 
 st.write(f"Data Updated as on **{formatted_date}**")
-st.write(f"**Note:** TCS Digital/Prime have been seperated and WITCH/Regular Offers will be updated soon.")
+with st.expander("Updates", expanded=False):
+    st.write(f"**Note:** TCS Digital/Prime have been seperated and WITCH/Regular Offers will be updated soon.")
+    st.write(f"**Note:** Okta CTC corrected to 43.2LPA")
+
 
 cookies = EncryptedCookieManager(
     prefix="poll_",  
