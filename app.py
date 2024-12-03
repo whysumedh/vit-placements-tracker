@@ -63,7 +63,7 @@ with st.expander("Disclaimer", expanded=True):
 
 st.write(f"Data Updated as on **{formatted_date}**")
 with st.expander("Updates", expanded=False):
-    st.write(f"**Note:** TCS Digital/Prime have been seperated and WITCH/Regular Offers will be updated soon.")
+    st.write(f"**Note:** TCS Digital/Prime have been seperated")
     st.write(f"**Note:** Okta CTC corrected to 43.2LPA")
 
 
@@ -419,7 +419,8 @@ with tab3:
     st.table(sorted_company_stats[['Company', 'Placed', 'Average CTC (LPA)']])
 
 with tab4:
-
+    w_total_students_placed = wdf['Reg_No'].count()
+    st.write(f"**Overall Witch Offers (Only B.Tech):** {w_total_students_placed}")
     stabs = st.tabs(["Branch-wise Offers", "Company-wise Offers", "Campus-wise Offers"])
     with stabs[0]:
         branch_name_mapping = {
@@ -444,6 +445,7 @@ with tab4:
         'BSA': '(BSA) CSE with Cloud Computing & Automation'      
     }
         st.header("Branch-wise Placements")
+        
         w_branch_count = wdf['Branch'].value_counts()
         w_branch_count.index = w_branch_count.index.to_series().replace(branch_name_mapping)
         fig = px.pie(values=w_branch_count, names=w_branch_count.index, title='Branch-wise Placement Distribution')
