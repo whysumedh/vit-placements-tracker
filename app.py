@@ -74,7 +74,7 @@ with st.expander("Disclaimer", expanded=True):
 st.write(f"Data Updated as on **{formatted_date}**")
 with st.expander("Updates", expanded=False):
     st.write(f"**Note:** Incedo Inc Details Updated")
-    st.write(f"**Note:** Okta CTC corrected to 43.2LPA")
+    st.write(f"**Note:** Kalvium CTC corrected to 13LPA")
 
 
 # cookies = EncryptedCookieManager(
@@ -434,7 +434,7 @@ with tab4:
         wdf = preprocess_and_filter_dataframe(wdf)
     w_total_students_placed = wdf['Reg_No'].count()
 
-    st.write("**Note**:  LTIMindTree (4LPA) is selected in the Dataframe as it conflicts with Cognizant(4LPA)")
+    st.write("**Note**:  LTIMindTree (4LPA) is selected in the filtered Dataframe as it conflicts with Cognizant(4LPA)")
     st.write(f"**Overall Witch Offers (Only B.Tech):** {w_total_students_placed}")
 
     stabs = st.tabs(["Branch-wise Offers", "Company-wise Offers", "Campus-wise Offers"])
