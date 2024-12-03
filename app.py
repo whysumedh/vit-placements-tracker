@@ -47,7 +47,11 @@ def preprocess_and_filter_dataframe(df):
     df['CTC'] = df['CTC'].fillna('').astype(str)
     df['CTC'] = df['CTC'].str.replace('LPA', '', regex=False)
     df['CTC'] = pd.to_numeric(df['CTC'], errors='coerce')
-    return df.loc[df.groupby('Reg_No')['CTC'].idxmax()].reset_index(drop=True)
+    df['Company_Priority'] = df['Company'].apply(lambda x: 1 if x == 'LTIMindtree' else 2)
+    df = df.sort_values(by=['Reg_No', 'CTC', 'Company_Priority'], ascending=[True, False, True])
+    df = df.loc[df.groupby('Reg_No')['CTC'].idxmax()].reset_index(drop=True)
+    df = df.drop(columns=['Company_Priority'])
+    return df
 
 
 st.set_page_config(page_title="VIT Placements" ,layout="wide")
