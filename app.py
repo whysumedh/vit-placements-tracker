@@ -437,7 +437,7 @@ with tab4:
     st.write("**Note**:  LTIMindTree (4LPA) is selected in the filtered Dataframe if it conflicts with Cognizant(4LPA)")
     st.write(f"**Overall Witch Offers (Only B.Tech):** {w_total_students_placed}")
 
-    stabs = st.tabs(["Branch-wise Offers", "Company-wise Offers", "Campus-wise Offers"])
+    stabs = st.tabs(["Branch-wise Offers", "Company-wise Offers", "Campus-wise Offers", "Overall"])
     with stabs[0]:
         branch_name_mapping = {
         'BCE': '(BCE) Computer Science & Engineering',
@@ -560,7 +560,21 @@ with tab4:
         )
         bar_chart.update_layout(xaxis_title="Campus", yaxis_title="Number of Students")
         st.plotly_chart(bar_chart)
-    
+
+    with stabs[3]:
+        st.title("Overall")
+
+        overall_companies = (
+            wdf.groupby(['Company', 'CTC'])
+            .size()
+            .reset_index(name='Count')
+            .sort_values(by='Count', ascending=False)
+        )
+        
+        overall_companies['CTC'] = overall_companies['CTC'].apply(lambda x: f"{x} LPA")
+        
+        st.table(overall_companies)
+
 
 
 
