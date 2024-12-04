@@ -74,7 +74,7 @@ with st.expander("Disclaimer", expanded=True):
 st.write(f"Data Updated as on **{formatted_date}**")
 with st.expander("Updates", expanded=False):
     st.write(f"**Note:** Incedo Inc Details Updated")
-    st.write(f"**Note:** Kalvium CTC corrected to 13LPA")
+    st.write(f"**Note:** Placements Timelinw Week-wise and Month-wise will be updated soon.")
 
 
 # cookies = EncryptedCookieManager(
@@ -429,12 +429,12 @@ with tab3:
     st.table(sorted_company_stats[['Company', 'Placed', 'Average CTC (LPA)']])
 
 with tab4:
-    view_option = st.radio("Select DataFrame :", ("Overall Offers", "Highest CTC For the Students with Multiple Offers"))
-    if view_option == "Highest CTC For the Students with Multiple Offers":
+    view_option = st.radio("Select DataFrame :", ("Overall Offers", "Consider Highest CTC For the Students with Multiple Offers"))
+    if view_option == "Consider Highest CTC For the Students with Multiple Offers":
         wdf = preprocess_and_filter_dataframe(wdf)
     w_total_students_placed = wdf['Reg_No'].count()
 
-    st.write("**Note**:  LTIMindTree (4LPA) is selected in the filtered Dataframe as it conflicts with Cognizant(4LPA)")
+    st.write("**Note**:  LTIMindTree (4LPA) is selected in the filtered Dataframe if it conflicts with Cognizant(4LPA)")
     st.write(f"**Overall Witch Offers (Only B.Tech):** {w_total_students_placed}")
 
     stabs = st.tabs(["Branch-wise Offers", "Company-wise Offers", "Campus-wise Offers"])
