@@ -74,7 +74,7 @@ with st.expander("Disclaimer", expanded=True):
 st.write(f"Data Updated as on **{formatted_date}**")
 with st.expander("Updates", expanded=False):
     st.write(f"**Note:** Incedo Inc Details Updated")
-    st.write(f"**Note:** Placements Timelinw Week-wise and Month-wise will be updated soon.")
+    st.write(f"**Note:** Placements Timeline Week-wise and Month-wise will be updated soon.")
 
 
 # cookies = EncryptedCookieManager(
