@@ -72,9 +72,9 @@ with st.expander("Disclaimer", expanded=True):
     """)
 
 st.write(f"Data Updated as on **{formatted_date}**")
-with st.expander("Updates", expanded=False):
-    st.write(f"**Note:** Incedo Inc Details Updated")
-    st.write(f"**Note:** Placements Timeline Week-wise and Month-wise will be updated soon.")
+# with st.expander("Updates", expanded=False):
+#     st.write(f"**Note:** Incedo Inc Details Updated")
+#     st.write(f"**Note:** Placements Timeline Week-wise and Month-wise will be updated soon.")
 
 
 # cookies = EncryptedCookieManager(
@@ -440,7 +440,11 @@ with tab4:
     w_total_students_placed = wdf['Reg_No'].count()
 
     st.write("**Note**:  LTIMindTree (4LPA) is selected in the filtered Dataframe if it conflicts with Cognizant(4LPA)")
-    st.write(f"**Overall Witch Offers (Only B.Tech):** {w_total_students_placed}, Mind that with M.Tech considered the total offers are 5162")
+    st.write("**Note**:  Mind that with M.Tech considered the total overall offers are 5162")
+    st.markdown("<br>", unsafe_allow_html=True)
+
+
+    st.write(f"**Overall Witch Offers (Only B.Tech):** {w_total_students_placed} ")
 
     stabs = st.tabs(["Branch-wise Offers", "Company-wise Offers", "Campus-wise Offers", "Overall"])
     with stabs[0]:
