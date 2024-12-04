@@ -440,7 +440,7 @@ with tab4:
     w_total_students_placed = wdf['Reg_No'].count()
 
     st.write("**Note**:  LTIMindTree (4LPA) is selected in the filtered Dataframe if it conflicts with Cognizant(4LPA)")
-    st.write(f"**Overall Witch Offers (Only B.Tech):** {w_total_students_placed}")
+    st.write(f"**Overall Witch Offers (Only B.Tech):** {w_total_students_placed}, Mind that with M.Tech considered the total offers are 5162")
 
     stabs = st.tabs(["Branch-wise Offers", "Company-wise Offers", "Campus-wise Offers", "Overall"])
     with stabs[0]:
