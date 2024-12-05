@@ -4,9 +4,9 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit.components.v1 as components
-from streamlit_cookies_manager import EncryptedCookieManager
-import firebase_admin
-from firebase_admin import credentials, firestore
+# # from streamlit_cookies_manager import EncryptedCookieManager
+# import firebase_admin
+# from firebase_admin import credentials, firestore
 import subprocess
 import datetime
 import os
@@ -43,6 +43,14 @@ def convert_ctc_to_numeric(ctc):
 df['CTC'] = df['CTC'].apply(convert_ctc_to_numeric)
 wdf['CTC'] = wdf['CTC'].apply(convert_ctc_to_numeric)
 
+def combine_dataframes(df, wdf):
+    df_filtered = df[['Reg_No', 'Branch', 'Company', 'CTC']]
+    wdf_filtered = wdf[['Reg_No', 'Branch', 'Company', 'CTC']]
+
+    cdf = pd.concat([df_filtered, wdf_filtered], ignore_index=True)
+    
+    return cdf
+
 def preprocess_and_filter_dataframe(df):
     df['CTC'] = df['CTC'].fillna('').astype(str)
     df['CTC'] = df['CTC'].str.replace('LPA', '', regex=False)
@@ -72,127 +80,13 @@ with st.expander("Disclaimer", expanded=True):
     """)
 
 st.write(f"Data Updated as on **{formatted_date}**")
-# with st.expander("Updates", expanded=False):
-#     st.write(f"**Note:** Incedo Inc Details Updated")
-#     st.write(f"**Note:** Placements Timeline Week-wise and Month-wise will be updated soon.")
 
+dop = st.radio("Select DataFrame :", ("Consider Only Normal Offers", "Combine WITCH and Normal Offers" ))
+if dop == "Combine WITCH and Normal Offers":
+    wdf = preprocess_and_filter_dataframe(wdf)
+    df = combine_dataframes(df,wdf)
 
-# cookies = EncryptedCookieManager(
-#     prefix="poll_",  
-#     password="your_secret_password"  
-# )
-
-# if not cookies.ready():
-#     st.stop()
-
-
-# if not firebase_admin._apps:
-#     cred = credentials.Certificate("fbcredss.json")
-#     firebase_admin.initialize_app(cred)
-
-# db = firestore.client()
-
-# def fetch_poll_data():
-#     poll_ref = db.collection("poll").document("poll_data")
-#     doc = poll_ref.get()
-#     if doc.exists:
-#         return doc.to_dict()
-#     else:
-#         initial_data = {"integrate": 109, "separate": 133}
-#         poll_ref.set(initial_data)
-#         return initial_data
-
-# def update_poll_data(option):
-#     poll_ref = db.collection("poll").document("poll_data")
-#     poll_data = fetch_poll_data()
-#     poll_data[option] += 1
-#     poll_ref.set(poll_data)
-
-# poll_data = fetch_poll_data()
-# total_votes = poll_data["integrate"] + poll_data["separate"]
-
-# def calculate_percentage(votes, total):
-#     return int((votes / total) * 100) if total > 0 else 0
-
-# has_voted = cookies.get("voted", "false") == "true"
-
-# st.write("**How Should The Upcoming WITCH(TCS(Only Ninja), Cognizant, etc)(<5LPA) Offers be Updated?**")
-
-# col1, col2 = st.columns(2)
-
-# with col1:
-#     if not has_voted:
-#         if st.button(f"Integrate into the whole current data ({poll_data['integrate']})"):
-#             update_poll_data("integrate")
-#             cookies["voted"] = "true"
-#             cookies.save()
-#             st.rerun()
-#     else:
-#         st.write(f"Integrate into the whole current data ({poll_data['integrate']})")
-#     st.progress(calculate_percentage(poll_data["integrate"], total_votes))
-
-# with col2:
-#     if not has_voted:
-#         if st.button(f"Create a separate section for WITCH Offers ({poll_data['separate']})"):
-#             update_poll_data("separate")
-#             cookies["voted"] = "true"
-#             cookies.save()
-#             st.rerun()
-#     else:
-#         st.write(f"Create a separate section for WITCH Offers ({poll_data['separate']})")
-#     st.progress(calculate_percentage(poll_data["separate"], total_votes))
-
-
-# if not cookies.ready():
-#     st.stop()
-
-# poll_file = "poll_data.json"
-
-# if not os.path.exists(poll_file):
-#     poll_data = {"integrate": 0, "separate": 0}
-#     with open(poll_file, "w") as file:
-#         json.dump(poll_data, file)
-# else:
-#     with open(poll_file, "r") as file:
-#         poll_data = json.load(file)
-
-# total_votes = poll_data["integrate"] + poll_data["separate"]
-
-# def calculate_percentage(votes, total):
-#     return int((votes / total) * 100) if total > 0 else 0
-
-# has_voted = cookies.get("voted", "false") == "true"
-
-# st.write("**How Should The Upcoming WITCH(TCS(Only Ninja), Cognizant, etc)(<5LPA) Offers be Updated ?**")
-
-# col1, col2 = st.columns(2)
-
-# with col1:
-#     if not has_voted:
-#         if st.button(f"Integrate into the whole current data ({poll_data['integrate']})"):
-#             poll_data["integrate"] += 1
-#             with open(poll_file, "w") as file:
-#                 json.dump(poll_data, file)
-#             cookies["voted"] = "true"
-#             cookies.save()
-#             st.rerun()
-#     else:
-#         st.write(f"Integrate into the whole current data ({poll_data['integrate']})")
-#     st.progress(calculate_percentage(poll_data["integrate"], total_votes))
-
-# with col2:
-#     if not has_voted:
-#         if st.button(f"Create a separate section for WITCH Offers ({poll_data['separate']})"):
-#             poll_data["separate"] += 1
-#             with open(poll_file, "w") as file:
-#                 json.dump(poll_data, file)
-#             cookies["voted"] = "true"
-#             cookies.save()
-#             st.rerun()
-#     else:
-#         st.write(f"Create a separate section for WITCH Offers ({poll_data['separate']})")
-#     st.progress(calculate_percentage(poll_data["separate"], total_votes))
-
+st.write("**Note**:  Unique WITCH Offers with Highest CTC per Student is Considered")
 tab1, tab2, tab3, tab4 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics", "WITCH Offers"])
 
 with tab1:
@@ -275,6 +169,46 @@ with tab1:
 
 
 
+# with tab2:
+#     st.header("Company-wise Placements")
+
+#     company_count = df['Company'].value_counts()
+#     fig = px.bar(x=company_count.index, y=company_count.values, 
+#                  labels={'x': 'Company', 'y': 'Number of Selections'},
+#                  title='Company-wise Placement Distribution')
+#     st.plotly_chart(fig)
+#     company = st.selectbox("Select Company", options=df['Company'].unique())
+#     company_data = df[df['Company'] == company]
+#     num_selections_company = len(company_data)  
+#     male_count = (company_data['Gender'] == 'Male').sum()
+#     female_count = (company_data['Gender'] == 'Female').sum()
+#     if female_count > 0:
+#         gender_ratio = male_count / female_count
+#     else:
+#         gender_ratio = None
+#     company_ctc_dist = company_data['CTC'].value_counts()
+#     company_ctc_dist.index = [f"{ctc} LPA" for ctc in company_ctc_dist.index]
+
+#     branch_count_company = company_data['Branch'].value_counts()
+#     if company == 'Bank of America':
+#         st.write("**Note:** BOFA selected 147 (B.Tech) Students + 23 (M.Tech) Students (In the initial selection list)")
+#     if company == 'TCS Digital/Prime':
+#         st.write("**Note:** B.Tech Digital Selections: 406 and B.Tech Prime Selections : 44")
+#     st.write(f"**Total Selections in {company}: {num_selections_company}**")
+#     st.write(f"**Number of Male Selections: {male_count}**")
+#     st.write(f"**Number of Female Selections: {female_count}**")
+#     if gender_ratio is not None:
+#         st.write(f"**Gender Ratio (Male to Female): {gender_ratio:.2f}**")
+#     else:
+#         st.write("**Gender Ratio (Male to Female): N/A**")
+#     avg_ctc_company = company_data['CTC'].mean()
+#     st.write(f"**Average CTC in {company}: {avg_ctc_company:.2f} LPA**")
+#     st.table(company_ctc_dist)
+#     st.write(f"**Branches under {company}:**")
+#     st.table(branch_count_company)
+#     fig = px.pie(values=company_ctc_dist, names=company_ctc_dist.index, title=f'{company} CTC Distribution')
+#     st.plotly_chart(fig)
+
 with tab2:
     st.header("Company-wise Placements")
 
@@ -288,56 +222,50 @@ with tab2:
     company_data = df[df['Company'] == company]
 
     num_selections_company = len(company_data)
-    
-    male_count = (company_data['Gender'] == 'Male').sum()
-    female_count = (company_data['Gender'] == 'Female').sum()
-    if female_count > 0:
-        gender_ratio = male_count / female_count
-    else:
-        gender_ratio = None
+    if not dop == "Combine WITCH and Normal Offers":
+        male_count = (company_data['Gender'] == 'Male').sum()
+        female_count = (company_data['Gender'] == 'Female').sum()
+
+        if female_count > 0:
+            gender_ratio = male_count / female_count
+        else:
+            gender_ratio = None
 
     company_ctc_dist = company_data['CTC'].value_counts()
-    company_ctc_dist.index = [f"{ctc} LPA" for ctc in company_ctc_dist.index]
+    na_count = company_data['CTC'].isna().sum()
+    if na_count > 0:
+        company_ctc_dist['NA'] = na_count
+    company_ctc_dist.index = [f"{ctc:.2f} LPA" if ctc != 'NA' else 'NA' for ctc in company_ctc_dist.index]
 
-    branch_count_company = company_data['Branch'].value_counts()
     if company == 'Bank of America':
         st.write("**Note:** BOFA selected 147 (B.Tech) Students + 23 (M.Tech) Students (In the initial selection list)")
     if company == 'TCS Digital/Prime':
         st.write("**Note:** B.Tech Digital Selections: 406 and B.Tech Prime Selections : 44")
-    
-    
+
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
-    st.write(f"**Number of Male Selections: {male_count}**")
-    st.write(f"**Number of Female Selections: {female_count}**")
-    if gender_ratio is not None:
-        st.write(f"**Gender Ratio (Male to Female): {gender_ratio:.2f}**")
-    else:
-        st.write("**Gender Ratio (Male to Female): N/A**")
-    avg_ctc_company = company_data['CTC'].mean()
+    if not dop == "Combine WITCH and Normal Offers":
+        st.write(f"**Number of Male Selections: {male_count}**")
+        st.write(f"**Number of Female Selections: {female_count}**")
+        if gender_ratio is not None:
+            st.write(f"**Gender Ratio (Male to Female): {gender_ratio:.2f}**")
+        else:
+            st.write("**Gender Ratio (Male to Female): N/A**")
+
+    avg_ctc_company = company_data['CTC'].dropna().mean()
     st.write(f"**Average CTC in {company}: {avg_ctc_company:.2f} LPA**")
+
+    st.write("**CTC Distribution**")
     st.table(company_ctc_dist)
 
-    
-
+    branch_count_company = company_data['Branch'].value_counts()
     st.write(f"**Branches under {company}:**")
     st.table(branch_count_company)
-    
-    
 
     fig = px.pie(values=company_ctc_dist, names=company_ctc_dist.index, title=f'{company} CTC Distribution')
     st.plotly_chart(fig)
 
 
-# count_file = 'last_total_students_placed.json'
-# total_students_placed = df['Reg_No'].count()
-# if os.path.exists(count_file):
-#     try:
-#         with open(count_file, 'r') as f:
-#             previous_data = json.load(f)
-#             previous_count = previous_data.get('total_students_placed', 0)
-#     except json.JSONDecodeError:
-#         previous_count = 0
-# increase = total_students_placed - previous_count
+
 
 
 with tab3:
@@ -348,11 +276,12 @@ with tab3:
     overall_min_ctc = df['CTC'].min()
     overall_median_ctc = df['CTC'].median()
     total_students_placed = df['Reg_No'].count()
-    overall_male_count = (df['Gender'] == 'Male').sum()
-    overall_female_count = (df['Gender'] == 'Female').sum()
-    overall_gender_ratio = overall_male_count / overall_female_count 
-    avg_male_ctc = df[df['Gender'] == 'Male']['CTC'].mean()
-    avg_female_ctc = df[df['Gender'] == 'Female']['CTC'].mean()
+    if not dop == "Combine WITCH and Normal Offers":
+        overall_male_count = (df['Gender'] == 'Male').sum()
+        overall_female_count = (df['Gender'] == 'Female').sum()
+        overall_gender_ratio = overall_male_count / overall_female_count 
+        avg_male_ctc = df[df['Gender'] == 'Male']['CTC'].mean()
+        avg_female_ctc = df[df['Gender'] == 'Female']['CTC'].mean()
     
     
     
@@ -365,22 +294,23 @@ with tab3:
         st.write(f"**Minimum CTC:** {overall_min_ctc:.2f} LPA")
         st.write(f"**Median CTC:** {overall_median_ctc:.2f} LPA")
         
-    
-    with col2:
-        st.write(f"**Overall Male Selections:** {overall_male_count}")
-        st.write(f"**Overall Female Selections:** {overall_female_count}")
-        st.write(f"**Overall Gender Ratio (Male to Female): {overall_gender_ratio:.2f}**")
-        st.write(f"**Average Male CTC: {avg_male_ctc:.2f} LPA**" if overall_male_count > 0 else "**Average Male CTC: N/A**")
-        st.write(f"**Average Female CTC: {avg_female_ctc:.2f} LPA**" if overall_female_count > 0 else "**Average Female CTC: N/A**")
+    if not dop == "Combine WITCH and Normal Offers":
+        with col2:
+            st.write(f"**Overall Male Selections:** {overall_male_count}")
+            st.write(f"**Overall Female Selections:** {overall_female_count}")
+            st.write(f"**Overall Gender Ratio (Male to Female): {overall_gender_ratio:.2f}**")
+            st.write(f"**Average Male CTC: {avg_male_ctc:.2f} LPA**" if overall_male_count > 0 else "**Average Male CTC: N/A**")
+            st.write(f"**Average Female CTC: {avg_female_ctc:.2f} LPA**" if overall_female_count > 0 else "**Average Female CTC: N/A**")
     
     st.markdown("<br><br>", unsafe_allow_html=True)
     st.write("**Note that CTC information is not known for some companies (NA) so the below Bar Chart numbers might not add up to the total students placed**")
-    ctc_ranges = ['<= 10 LPA', '10-15(Inclusive) LPA', '15-20(Inclusive)LPA', '> 20 LPA']
+    ctc_ranges = ['CTC < 5LPA','5LPA <= CTC < 10LPA', '10LPA <= CTC < 15LPA', '15LPA <= CTC < 20LPA', '>= 20 LPA']
     ctc_counts = [
-        df[df['CTC'] <= 10].shape[0],
-        df[(df['CTC'] > 10) & (df['CTC'] <= 15)].shape[0],
-        df[(df['CTC'] > 15) & (df['CTC'] <= 20)].shape[0],
-        df[df['CTC'] > 20].shape[0]
+        df[df['CTC'] < 5].shape[0],
+        df[(df['CTC'] >= 5) & (df['CTC'] < 10)].shape[0],
+        df[(df['CTC'] >= 10) & (df['CTC'] < 15)].shape[0],
+        df[(df['CTC'] >= 15) & (df['CTC'] < 20)].shape[0],
+        df[df['CTC'] >= 20].shape[0]
     ]
     
     ctc_data = {
@@ -596,6 +526,8 @@ st.markdown("""
         </a>
     </p>
     """, unsafe_allow_html=True)
+
+
 # st.markdown("""
 #     <p style='text-align: center;'>
 #         Check out the Reddit post!!  
@@ -614,3 +546,125 @@ st.markdown("""
 #     """, unsafe_allow_html=True)
 
 
+# Poll Code
+
+# with st.expander("Updates", expanded=False):
+#     st.write(f"**Note:** Incedo Inc Details Updated")
+#     st.write(f"**Note:** Placements Timeline Week-wise and Month-wise will be updated soon.")
+
+
+# cookies = EncryptedCookieManager(
+#     prefix="poll_",  
+#     password="your_secret_password"  
+# )
+
+# if not cookies.ready():
+#     st.stop()
+
+
+# if not firebase_admin._apps:
+#     cred = credentials.Certificate("fbcredss.json")
+#     firebase_admin.initialize_app(cred)
+
+# db = firestore.client()
+
+# def fetch_poll_data():
+#     poll_ref = db.collection("poll").document("poll_data")
+#     doc = poll_ref.get()
+#     if doc.exists:
+#         return doc.to_dict()
+#     else:
+#         initial_data = {"integrate": 109, "separate": 133}
+#         poll_ref.set(initial_data)
+#         return initial_data
+
+# def update_poll_data(option):
+#     poll_ref = db.collection("poll").document("poll_data")
+#     poll_data = fetch_poll_data()
+#     poll_data[option] += 1
+#     poll_ref.set(poll_data)
+
+# poll_data = fetch_poll_data()
+# total_votes = poll_data["integrate"] + poll_data["separate"]
+
+# def calculate_percentage(votes, total):
+#     return int((votes / total) * 100) if total > 0 else 0
+
+# has_voted = cookies.get("voted", "false") == "true"
+
+# st.write("**How Should The Upcoming WITCH(TCS(Only Ninja), Cognizant, etc)(<5LPA) Offers be Updated?**")
+
+# col1, col2 = st.columns(2)
+
+# with col1:
+#     if not has_voted:
+#         if st.button(f"Integrate into the whole current data ({poll_data['integrate']})"):
+#             update_poll_data("integrate")
+#             cookies["voted"] = "true"
+#             cookies.save()
+#             st.rerun()
+#     else:
+#         st.write(f"Integrate into the whole current data ({poll_data['integrate']})")
+#     st.progress(calculate_percentage(poll_data["integrate"], total_votes))
+
+# with col2:
+#     if not has_voted:
+#         if st.button(f"Create a separate section for WITCH Offers ({poll_data['separate']})"):
+#             update_poll_data("separate")
+#             cookies["voted"] = "true"
+#             cookies.save()
+#             st.rerun()
+#     else:
+#         st.write(f"Create a separate section for WITCH Offers ({poll_data['separate']})")
+#     st.progress(calculate_percentage(poll_data["separate"], total_votes))
+
+
+# if not cookies.ready():
+#     st.stop()
+
+# poll_file = "poll_data.json"
+
+# if not os.path.exists(poll_file):
+#     poll_data = {"integrate": 0, "separate": 0}
+#     with open(poll_file, "w") as file:
+#         json.dump(poll_data, file)
+# else:
+#     with open(poll_file, "r") as file:
+#         poll_data = json.load(file)
+
+# total_votes = poll_data["integrate"] + poll_data["separate"]
+
+# def calculate_percentage(votes, total):
+#     return int((votes / total) * 100) if total > 0 else 0
+
+# has_voted = cookies.get("voted", "false") == "true"
+
+# st.write("**How Should The Upcoming WITCH(TCS(Only Ninja), Cognizant, etc)(<5LPA) Offers be Updated ?**")
+
+# col1, col2 = st.columns(2)
+
+# with col1:
+#     if not has_voted:
+#         if st.button(f"Integrate into the whole current data ({poll_data['integrate']})"):
+#             poll_data["integrate"] += 1
+#             with open(poll_file, "w") as file:
+#                 json.dump(poll_data, file)
+#             cookies["voted"] = "true"
+#             cookies.save()
+#             st.rerun()
+#     else:
+#         st.write(f"Integrate into the whole current data ({poll_data['integrate']})")
+#     st.progress(calculate_percentage(poll_data["integrate"], total_votes))
+
+# with col2:
+#     if not has_voted:
+#         if st.button(f"Create a separate section for WITCH Offers ({poll_data['separate']})"):
+#             poll_data["separate"] += 1
+#             with open(poll_file, "w") as file:
+#                 json.dump(poll_data, file)
+#             cookies["voted"] = "true"
+#             cookies.save()
+#             st.rerun()
+#     else:
+#         st.write(f"Create a separate section for WITCH Offers ({poll_data['separate']})")
+#     st.progress(calculate_percentage(poll_data["separate"], total_votes))
