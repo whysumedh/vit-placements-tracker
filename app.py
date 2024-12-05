@@ -83,8 +83,8 @@ st.write(f"Data Updated as on **{formatted_date}**")
 
 dop = st.radio("Select DataFrame :", ("Consider Only Normal Offers", "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)" ))
 if dop == "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)":
-    wdf = preprocess_and_filter_dataframe(wdf)
-    df = combine_dataframes(df,wdf)
+    fwdf = preprocess_and_filter_dataframe(wdf)
+    df = combine_dataframes(df,fwdf)
 
 st.write("**Note**:  Unique WITCH Offers (Only BTech, MTech is not considered) with Highest CTC per Student is Considered")
 tab1, tab2, tab3, tab4 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics", "WITCH Offers"])
