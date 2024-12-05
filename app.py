@@ -81,8 +81,8 @@ with st.expander("Disclaimer", expanded=True):
 
 st.write(f"Data Updated as on **{formatted_date}**")
 
-dop = st.radio("Select DataFrame :", ("Consider Only Normal Offers", "Combine WITCH and Normal Offers" ))
-if dop == "Combine WITCH and Normal Offers":
+dop = st.radio("Select DataFrame :", ("Consider Only Normal Offers", "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)" ))
+if dop == "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)":
     wdf = preprocess_and_filter_dataframe(wdf)
     df = combine_dataframes(df,wdf)
 
@@ -222,7 +222,7 @@ with tab2:
     company_data = df[df['Company'] == company]
 
     num_selections_company = len(company_data)
-    if not dop == "Combine WITCH and Normal Offers":
+    if not dop == "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)":
         male_count = (company_data['Gender'] == 'Male').sum()
         female_count = (company_data['Gender'] == 'Female').sum()
 
@@ -243,7 +243,7 @@ with tab2:
         st.write("**Note:** B.Tech Digital Selections: 406 and B.Tech Prime Selections : 44")
 
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
-    if not dop == "Combine WITCH and Normal Offers":
+    if not dop == "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)":
         st.write(f"**Number of Male Selections: {male_count}**")
         st.write(f"**Number of Female Selections: {female_count}**")
         if gender_ratio is not None:
@@ -276,7 +276,7 @@ with tab3:
     overall_min_ctc = df['CTC'].min()
     overall_median_ctc = df['CTC'].median()
     total_students_placed = df['Reg_No'].count()
-    if not dop == "Combine WITCH and Normal Offers":
+    if not dop == "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)":
         overall_male_count = (df['Gender'] == 'Male').sum()
         overall_female_count = (df['Gender'] == 'Female').sum()
         overall_gender_ratio = overall_male_count / overall_female_count 
@@ -294,7 +294,7 @@ with tab3:
         st.write(f"**Minimum CTC:** {overall_min_ctc:.2f} LPA")
         st.write(f"**Median CTC:** {overall_median_ctc:.2f} LPA")
         
-    if not dop == "Combine WITCH and Normal Offers":
+    if not dop == "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)":
         with col2:
             st.write(f"**Overall Male Selections:** {overall_male_count}")
             st.write(f"**Overall Female Selections:** {overall_female_count}")
