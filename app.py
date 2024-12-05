@@ -434,14 +434,13 @@ with tab3:
     st.table(sorted_company_stats[['Company', 'Placed', 'Average CTC (LPA)']])
 
 with tab4:
+    st.write("**Note**:  Mind that with M.Tech considered the total overall offers is 5162")
     view_option = st.radio("Select DataFrame :", ("Overall Offers", "Consider Highest CTC For the Students with Multiple Offers"))
     if view_option == "Consider Highest CTC For the Students with Multiple Offers":
         wdf = preprocess_and_filter_dataframe(wdf)
     w_total_students_placed = wdf['Reg_No'].count()
 
     st.write("**Note**:  LTIMindTree (4LPA) is selected in the filtered Dataframe if it conflicts with Cognizant(4LPA)")
-    st.write("**Note**:  Mind that with M.Tech considered the total overall offers are 5162")
-    st.markdown("<br>", unsafe_allow_html=True)
 
 
     st.write(f"**Overall Witch Offers (Only B.Tech):** {w_total_students_placed} ")
