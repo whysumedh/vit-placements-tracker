@@ -4,9 +4,10 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 # import streamlit.components.v1 as components
-# # from streamlit_cookies_manager import EncryptedCookieManager
-# import firebase_admin
-# from firebase_admin import credentials, firestore
+# from streamlit_cookies_manager import EncryptedCookieManager
+import firebase_admin
+from firebase_admin import credentials, firestore
+import streamlit_analytics
 import subprocess
 import datetime
 import os
@@ -63,6 +64,7 @@ def preprocess_and_filter_dataframe(df):
 
 
 st.set_page_config(page_title="VIT Placements" ,layout="wide")
+streamlit_analytics.start_tracking(firestore_key_file="fbcredss.json", firestore_collection_name="counts")
 
 st.title("VIT Placements 2024-2025")
 
@@ -526,6 +528,7 @@ st.markdown("""
         </a>
     </p>
     """, unsafe_allow_html=True)
+streamlit_analytics.stop_tracking(firestore_key_file="fbcredss.json", firestore_collection_name="counts")
 
 
 # st.markdown("""
