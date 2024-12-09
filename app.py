@@ -81,6 +81,7 @@ with st.expander("Disclaimer", expanded=True):
     - Gender Classification is done by Student's name. Used [naampy library](https://pypi.org/project/naampy/) for classification; Note that the classifications may not be accurate.
     """)
 
+st.write("**Note**: Please Note Only 21 Batch **B.Tech** details have been considered.")
 st.write(f"Data Updated as on **{formatted_date}**")
 
 dop = st.radio("Select DataFrame :", ("Consider Only Normal Offers", "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)" ))
