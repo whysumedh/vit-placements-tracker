@@ -291,7 +291,7 @@ with tab3:
     col1, col2 = st.columns([0.5, 1])
 
     with col1:
-        st.write(f"**Total Students Placed:** {total_students_placed}")
+        st.write(f"**Total No. of Offers:** {total_students_placed}")
         st.write(f"**Average CTC:** {overall_avg_ctc:.2f} LPA")
         st.write(f"**Maximum CTC:** {overall_max_ctc:.2f} LPA")
         st.write(f"**Minimum CTC:** {overall_min_ctc:.2f} LPA")
