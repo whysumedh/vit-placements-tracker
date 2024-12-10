@@ -63,7 +63,7 @@ def preprocess_and_filter_dataframe(df):
     return df
 
 
-st.set_page_config(page_title="VIT Placements" ,layout="wide")
+st.set_page_config(page_title="VIT Placements" ,layout="wide",page_icon="favicon-16x16.png")
 # streamlit_analytics.start_tracking(firestore_key_file="fbcredss.json", firestore_collection_name="counts")
 
 st.title("VIT Placements 2024-2025")
@@ -242,7 +242,7 @@ with tab2:
 
     if company == 'Bank of America':
         st.write("**Note:** BOFA selected 147 (B.Tech) Students + 23 (M.Tech) Students (In the initial selection list)")
-    if company == 'TCS Digital/Prime':
+    if company == 'TCS Digital':
         st.write("**Note:** B.Tech Digital Selections: 406 and B.Tech Prime Selections : 44")
 
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
