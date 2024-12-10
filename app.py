@@ -34,7 +34,7 @@ else:
     formatted_date = "No commits found."
 
 df=pd.read_excel('google_sheet_data.xlsx')
-wdf=pd.read_excel('WITCH-P-1.xlsx')
+wdf=pd.read_excel('WITCH-P-2.xlsx')
 def convert_ctc_to_numeric(ctc):
     try:
         return float(ctc.replace('LPA', '').strip())
