@@ -306,6 +306,20 @@ with tab3:
             st.write(f"**Average Female CTC: {avg_female_ctc:.2f} LPA**" if overall_female_count > 0 else "**Average Female CTC: N/A**")
     
     st.markdown("<br><br>", unsafe_allow_html=True)
+
+    st.write("**Latest Selections**")
+
+    latest_tail = df.tail(25)
+    unique_companies_tail = latest_tail.drop_duplicates(subset='Company', keep='last')
+
+    selection_counts = latest_tail.groupby('Company')['Reg_No'].count()
+
+    unique_companies_tail['Selection_Count'] = unique_companies_tail['Company'].map(selection_counts)
+
+    final_table = unique_companies_tail[['Company', 'CTC', 'Selection_Count']]
+
+    st.table(final_table)
+
     st.write("**Note that CTC information is not known for some companies (NA) so the below Bar Chart numbers might not add up to the total students placed**")
     ctc_ranges = ['CTC < 5LPA','5LPA <= CTC < 10LPA', '10LPA <= CTC < 15LPA', '15LPA <= CTC < 20LPA', '>= 20 LPA']
     ctc_counts = [
