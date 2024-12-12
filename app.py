@@ -89,7 +89,6 @@ if dop == "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)":
     fwdf = preprocess_and_filter_dataframe(wdf)
     df = combine_dataframes(df,fwdf)
 
-st.write("**Note**:  Unique WITCH Offers (Only BTech, MTech is not considered) with Highest CTC per Student is Considered")
 tab1, tab2, tab3, tab4 = st.tabs(["Branch-wise Placements", "Company-wise Placements", "Overall Statistics", "WITCH Offers"])
 
 with tab1:
