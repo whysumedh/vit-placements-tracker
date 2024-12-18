@@ -3,8 +3,6 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-# import streamlit.components.v1 as components
-# from streamlit_cookies_manager import EncryptedCookieManager
 import firebase_admin
 from firebase_admin import credentials, firestore
 import streamlit_analytics
