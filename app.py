@@ -378,7 +378,8 @@ with tab3:
     st.table(sorted_company_stats[['Company', 'Placed', 'Average CTC (LPA)']])
 
 with tab4:
-    st.write("**Note**:  Mind that with M.Tech considered the total overall offers is 5162")
+    st.write("**Note**:  Mind that with M.Tech considered the total overall offers is 5162 (Initial List)")
+    st.write("**Note**:  Recent WITCH Selections are also updated")
     view_option = st.radio("Select DataFrame :", ("Overall Offers", "Consider Highest CTC For the Students with Multiple Offers"))
     if view_option == "Consider Highest CTC For the Students with Multiple Offers":
         wdf = preprocess_and_filter_dataframe(wdf)
