@@ -71,7 +71,7 @@ with st.expander("Disclaimer", expanded=True):
     **Please Note That:**  
     - The data is scraped from placements mail from July-18-2024.
     - Statistics may not be accurate or up-to-date or even wrong.
-    - **The CTC information is not available for most of the Summer PPOs and Internship Offers. CTC is considered 'nan' for Only Internship Offers**
+    - **The CTC information is not available for most of the Summer PPOs and Internship Offers. CTC is considered 'nan'/'NA' for Only Internship Offers or if the CTC is unknown**
     - **Some of The CTC Information(If not known) is taken from Internet Public Posts for some Companies**
     - **The average and median CTC stats have been considered from available CTC information only.**
     - Only 21 Batch B.Tech details have been considered.
