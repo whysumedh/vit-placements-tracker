@@ -241,6 +241,8 @@ with tab2:
         st.write("**Note:** BOFA selected 147 (B.Tech) Students + 23 (M.Tech) Students (In the initial selection list)")
     if company == 'TCS Digital':
         st.write("**Note:** B.Tech Digital Selections: 406 and B.Tech Prime Selections : 44")
+    if company == 'Virtusa International':
+        st.write("**Note:** Virtusa International Offer : This for US location 55K USD=47.65 LPA")
 
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
     if not dop == "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)":
