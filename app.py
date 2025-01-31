@@ -311,11 +311,7 @@ with tab3:
     latest_tail = df.tail(25)
     unique_companies_tail = latest_tail.drop_duplicates(subset='Company', keep='last')
 
-    selection_counts = latest_tail.groupby('Company')['Reg_No'].count()
-
-    unique_companies_tail['Selection_Count'] = unique_companies_tail['Company'].map(selection_counts)
-
-    final_table = unique_companies_tail[['Company', 'CTC', 'Selection_Count']]
+    final_table = unique_companies_tail[['Company', 'CTC']]
 
     st.table(final_table)
 
