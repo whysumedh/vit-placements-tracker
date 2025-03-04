@@ -65,7 +65,7 @@ st.set_page_config(page_title="VIT Placements" ,layout="wide",page_icon="favicon
 
 st.title("VIT Placements 2024-2025")
 
-with st.expander("Disclaimer", expanded=True):
+with st.expander("Disclaimer"):
     st.markdown("""
     **Please Note That:**  
     - The data is scraped from placements mail from July-18-2024.
