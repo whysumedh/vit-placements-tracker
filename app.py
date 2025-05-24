@@ -92,7 +92,7 @@ st.write("**Note**: Please Note Only 21 Batch **B.Tech** details have been consi
 st.write(f"Data Updated as on **{formatted_date}**")
 st.write("**Companies Monthly(Timeline) Data Updated**")
 
-dop = st.radio("Select DataFrame :", ("Consider Only Normal Offers", "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)" ))
+dop = st.radio("Select DataFrame :", ("Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)", "Consider Only Normal Offers" ))
 if dop == "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)":
     fwdf = preprocess_and_filter_dataframe(wdf)
     df = combine_dataframes(df,fwdf)
@@ -257,7 +257,7 @@ with tab2:
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
     selection_month=", ".join(company_data['Month'].unique())
     st.write(f"**{company}'s Selection Month(s) : {selection_month}**")
-    
+
     if not dop == "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)":
         st.write(f"**Number of Male Selections: {male_count}**")
         st.write(f"**Number of Female Selections: {female_count}**")
