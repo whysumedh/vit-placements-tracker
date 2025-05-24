@@ -255,6 +255,9 @@ with tab2:
         st.write("**Note:** Virtusa International Offer : This for US location 55K USD=47.65 LPA")
 
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
+    selection_month=", ".join(company_data['Month'].unique())
+    st.write(f"**{company}'s Selection Month(s) : {selection_month}**")
+    
     if not dop == "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)":
         st.write(f"**Number of Male Selections: {male_count}**")
         st.write(f"**Number of Female Selections: {female_count}**")
@@ -264,8 +267,7 @@ with tab2:
             st.write("**Gender Ratio (Male to Female): N/A**")
 
     avg_ctc_company = company_data['CTC'].dropna().mean()
-    selection_month=company_data['Month'].unique()[0]
-    st.write(f"**{company}'s Selection Month : {selection_month}**")
+    
     st.write(f"**Average CTC in {company}: {avg_ctc_company:.2f} LPA**")
 
     st.write("**CTC Distribution**")
