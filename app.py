@@ -10,6 +10,7 @@ import subprocess
 import datetime
 import os
 import json
+import matplotlib.pyplot as plt
 
 
 
@@ -33,6 +34,7 @@ else:
 
 df=pd.read_excel('google_sheet_data.xlsx')
 wdf=pd.read_excel('WITCH-P-2.xlsx')
+
 def convert_ctc_to_numeric(ctc):
     try:
         return float(ctc.replace('LPA', '').strip())
@@ -41,14 +43,22 @@ def convert_ctc_to_numeric(ctc):
 
 df['CTC'] = df['CTC'].apply(convert_ctc_to_numeric)
 wdf['CTC'] = wdf['CTC'].apply(convert_ctc_to_numeric)
+wdf["Month"] = "December 2024"
+
+
 
 def combine_dataframes(df, wdf):
-    df_filtered = df[['Reg_No', 'Branch', 'Company', 'CTC']]
-    wdf_filtered = wdf[['Reg_No', 'Branch', 'Company', 'CTC']]
+    df_filtered = df[['Reg_No', 'Branch', 'Company', 'CTC','Month']]
+    wdf_filtered = wdf[['Reg_No', 'Branch', 'Company', 'CTC', 'Month']]
 
     cdf = pd.concat([df_filtered, wdf_filtered], ignore_index=True)
     
     return cdf
+
+# print(df.head())
+# print(wdf.head())
+# cdf=combine_dataframes(df,wdf)
+# print(cdf.head())
 
 def preprocess_and_filter_dataframe(df):
     df['CTC'] = df['CTC'].fillna('').astype(str)
@@ -253,6 +263,8 @@ with tab2:
             st.write("**Gender Ratio (Male to Female): N/A**")
 
     avg_ctc_company = company_data['CTC'].dropna().mean()
+    selection_month=company_data['Month'].unique()[0]
+    st.write(f"**{company}'s Selection Month : {selection_month}**")
     st.write(f"**Average CTC in {company}: {avg_ctc_company:.2f} LPA**")
 
     st.write("**CTC Distribution**")
@@ -303,18 +315,9 @@ with tab3:
             st.write(f"**Average Male CTC: {avg_male_ctc:.2f} LPA**" if overall_male_count > 0 else "**Average Male CTC: N/A**")
             st.write(f"**Average Female CTC: {avg_female_ctc:.2f} LPA**" if overall_female_count > 0 else "**Average Female CTC: N/A**")
     
+
     st.markdown("<br><br>", unsafe_allow_html=True)
-
-    st.write("**Latest Selections**")
-
-    latest_tail = df.tail(25)
-    unique_companies_tail = latest_tail.drop_duplicates(subset='Company', keep='last')
-
-    final_table = unique_companies_tail[['Company', 'CTC']]
-
-    st.table(final_table)
-
-    st.write("**Note that CTC information is not known for some companies (NA) so the below Bar Chart numbers might not add up to the total students placed**")
+    
     ctc_ranges = ['CTC < 5LPA','5LPA <= CTC < 10LPA', '10LPA <= CTC < 15LPA', '15LPA <= CTC < 20LPA', '>= 20 LPA']
     ctc_counts = [
         df[df['CTC'] < 5].shape[0],
@@ -342,37 +345,102 @@ with tab3:
     fig.update_layout(height=400, showlegend=False)
 
     st.plotly_chart(fig)
+    st.write("**Note that CTC information is not known for some companies (NA) so the above Bar Chart numbers might not add up to the total students placed**")
+    
+    df['Month'] = pd.to_datetime(df['Month'], format='%B %Y')
+
+    # Dropdown to choose graph type
+    graph_type = st.selectbox("Select graph to view", ["Selections Over Months", "Average CTC per Month"])
+
+    if graph_type == "Selections Over Months":
+        selections = df.groupby('Month')['Reg_No'].count().reset_index(name='Selections')
+        selections = selections.sort_values('Month')
+
+        fig1 = px.line(
+            selections,
+            x='Month',
+            y='Selections',
+            title='Selections Over Months',
+            markers=True,
+            labels={'Month': 'Month', 'Selections': 'Number of Selections'}
+        )
+        fig1.update_layout(
+            xaxis_title='Month',
+            yaxis_title='Selections',
+            xaxis_tickformat='%b %Y',
+            hovermode='x unified'
+        )
+        st.plotly_chart(fig1, use_container_width=True)
+
+    else:
+
+        avg_ctc_per_month = df.groupby('Month')['CTC'].mean().reset_index(name='AverageCTC')
+        avg_ctc_per_month = avg_ctc_per_month.sort_values('Month')
+
+        fig2 = px.line(
+            avg_ctc_per_month,
+            x='Month',
+            y='AverageCTC',
+            title='Average CTC per Month',
+            markers=True,
+            labels={'Month': 'Month', 'AverageCTC': 'Average CTC (LPA)'}
+        )
+        fig2.update_layout(
+            xaxis_title='Month',
+            yaxis_title='Average CTC (LPA)',
+            xaxis_tickformat='%b %Y',
+            hovermode='x unified'
+        )
+        st.plotly_chart(fig2, use_container_width=True)
+
+    
+    
     
     branchwise_count = df.groupby('Branch').size()
     st.write("**Students Placed by Branch:**")
     st.write(branchwise_count)
-    
+
+    df['Month'] = pd.to_datetime(df['Month'], format='%B %Y')
+
     total_companies = df['Company'].nunique()
     st.write(f"**Total Number of Companies:** {total_companies}")
     st.write("*Please Note That: Some companies came for both PPO and Placements*")
     st.write("*Avg CTC is the average of various CTCs offered by the company (if offered various CTCs)*")
 
-    company_stats = df.groupby('Company').agg(
-        num_selections=('Reg_No', 'size'),  
-        avg_ctc=('CTC', 'mean')  
+    # Group by Company and Month
+    company_month_stats = df.groupby(['Company', 'Month']).agg(
+        num_selections=('Reg_No', 'size'),
+        avg_ctc=('CTC', 'mean')
     ).reset_index()
-    company_stats['avg_ctc'] = company_stats['avg_ctc'].astype(float)
 
+    company_month_stats['avg_ctc'] = company_month_stats['avg_ctc'].astype(float)
+
+    # Sorting logic
     sort_options = {
-    'Company': 'Company',
-    'Selections': 'num_selections',
-    'Average CTC': 'avg_ctc'
+        'Company': 'Company',
+        'Selections': 'num_selections',
+        'Average CTC': 'avg_ctc',
+        'Month': 'Month'
     }
-    selected_sort_option = st.selectbox("Sort by", options=['Company', 'Selections', 'Average CTC'],index=0)
 
-    ascending_order = selected_sort_option == 'Company'  
-    sorted_company_stats = company_stats.sort_values(by=sort_options[selected_sort_option], ascending=ascending_order)
+    selected_sort_option = st.selectbox(
+        "Sort by", options=['Company', 'Selections', 'Average CTC', 'Month'], index=0
+    )
 
-    sorted_company_stats['avg_ctc'] = sorted_company_stats['avg_ctc'].map(lambda x: f"{x:.1f}")
-    sorted_company_stats = sorted_company_stats.rename(columns={'avg_ctc': 'Average CTC (LPA)'})
-    sorted_company_stats = sorted_company_stats.rename(columns={'num_selections': 'Placed'})
+    ascending_order = selected_sort_option in ['Company', 'Month']
 
-    st.table(sorted_company_stats[['Company', 'Placed', 'Average CTC (LPA)']])
+    # Sort using the datetime 'Month' column
+    sorted_stats = company_month_stats.sort_values(
+        by=sort_options[selected_sort_option], ascending=ascending_order
+    )
+
+    # Format Month only for display (keep original datetime for sorting)
+    sorted_stats['Month'] = sorted_stats['Month'].dt.strftime('%B %Y')
+    sorted_stats['avg_ctc'] = sorted_stats['avg_ctc'].map(lambda x: f"{x:.1f}")
+    sorted_stats = sorted_stats.rename(columns={'avg_ctc': 'Average CTC (LPA)', 'num_selections': 'Placed'})
+
+    st.table(sorted_stats[['Company', 'Month', 'Placed', 'Average CTC (LPA)']])
+
 
 with tab4:
     st.write("**Note**:  Mind that with M.Tech considered the total overall offers is 5162 (Initial List)")
