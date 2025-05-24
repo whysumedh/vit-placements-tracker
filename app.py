@@ -222,11 +222,27 @@ with tab1:
 with tab2:
     st.header("Company-wise Placements")
 
-    company_count = df['Company'].value_counts()
-    fig = px.bar(x=company_count.index, y=company_count.values, 
-                 labels={'x': 'Company', 'y': 'Number of Selections'},
-                 title='Company-wise Placement Distribution')
-    st.plotly_chart(fig)
+    company_count = df['Company'].value_counts().reset_index()
+    company_count.columns = ['Company', 'Selections']
+
+    show_full_data = st.checkbox("Show all companies", value=False)
+
+    if not show_full_data:
+        company_count = company_count.sort_values(by='Selections', ascending=False).head(20)
+    else:
+        company_count = company_count.sort_values(by='Selections', ascending=False)
+
+    fig = px.bar(
+        company_count,
+        x='Company',
+        y='Selections',
+        title='Company-wise Placement Distribution',
+        labels={'Selections': 'Number of Selections'},
+    )
+
+    fig.update_layout(xaxis_tickangle=45)
+
+    st.plotly_chart(fig, use_container_width=True)
 
     company = st.selectbox("Select Company", options=df['Company'].unique())
     company_data = df[df['Company'] == company]
@@ -594,10 +610,6 @@ with tab4:
         overall_companies['CTC'] = overall_companies['CTC'].apply(lambda x: f"{x} LPA")
         
         st.table(overall_companies)
-
-
-
-
 
 
 st.markdown("<br><br><br><br><br><br>", unsafe_allow_html=True)
