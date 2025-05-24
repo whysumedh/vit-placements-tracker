@@ -90,6 +90,7 @@ with st.expander("Disclaimer"):
 
 st.write("**Note**: Please Note Only 21 Batch **B.Tech** details have been considered.")
 st.write(f"Data Updated as on **{formatted_date}**")
+st.write("**Companies Monthly(Timeline) Data Updated**")
 
 dop = st.radio("Select DataFrame :", ("Consider Only Normal Offers", "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)" ))
 if dop == "Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)":
