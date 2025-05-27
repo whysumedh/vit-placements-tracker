@@ -369,7 +369,7 @@ with tab3:
     df['Month'] = pd.to_datetime(df['Month'], format='%B %Y')
 
     # Dropdown to choose graph type
-    graph_type = st.selectbox("Select graph to view", ["Selections Over Months", "Average vs Median CTC per Month"])
+    graph_type = st.selectbox("Select graph to view", ["Selections Over Months", "Monthly Metrics"])
 
     if graph_type == "Selections Over Months":
         selections = df.groupby('Month')['Reg_No'].count().reset_index(name='Selections')
@@ -392,34 +392,61 @@ with tab3:
         st.plotly_chart(fig1, use_container_width=True)
 
     else:
+        st.write("**Please Note that Max CTC Scale is to the right**")
 
         avg_ctc_per_month = df.groupby('Month')['CTC'].mean().reset_index(name='AverageCTC')
         median_ctc_per_month=df.groupby('Month')['CTC'].median().reset_index(name='MedianCTC')
-        ctc_stats = pd.merge(avg_ctc_per_month, median_ctc_per_month, on='Month')
+        max_ctc_per_month=df.groupby('Month')['CTC'].max().reset_index(name='MaxCTC')
+
+        ctc_stats = avg_ctc_per_month.merge(median_ctc_per_month, on='Month').merge(max_ctc_per_month, on='Month')
         ctc_stats = ctc_stats.sort_values('Month')
 
+        ctc_stats_melted = ctc_stats.melt(id_vars='Month', value_vars=['AverageCTC', 'MedianCTC', 'MaxCTC'],
+                                        var_name='Metric', value_name='CTC (LPA)')
 
-        fig2 = px.line(
-        ctc_stats,
-        x='Month',
-        y=['AverageCTC', 'MedianCTC'],
-        title='Average vs. Median CTC per Month',
-        markers=True,
-        labels={
-            'Month': 'Month',
-            'value': 'CTC (LPA)',
-            'variable': 'Metric'
-        }
-    )
 
-        fig2.update_layout(
-            xaxis_title='Month',
-            yaxis_title='CTC (LPA)',
-            xaxis_tickformat='%b %Y',
-            hovermode='x unified'
+        fig = go.Figure()
+
+        # Average CTC
+        fig.add_trace(go.Scatter(
+            x=ctc_stats['Month'],
+            y=ctc_stats['AverageCTC'],
+            mode='lines+markers',
+            name='Average CTC',
+            yaxis='y1'
+        ))
+
+        # Median CTC
+        fig.add_trace(go.Scatter(
+            x=ctc_stats['Month'],
+            y=ctc_stats['MedianCTC'],
+            mode='lines+markers',
+            name='Median CTC',
+            yaxis='y1'
+        ))
+
+        # Max CTC on secondary axis
+        fig.add_trace(go.Scatter(
+            x=ctc_stats['Month'],
+            y=ctc_stats['MaxCTC'],
+            mode='lines+markers',
+            name='Max CTC',
+            yaxis='y2',
+            line=dict(dash='dot', color='gray')
+        ))
+
+        # Layout with dual axes
+        fig.update_layout(
+            title='CTC Trends per Month',
+            xaxis=dict(title='Month', tickformat='%b %Y'),
+            yaxis=dict(title='Average / Median CTC (LPA)', side='left'),
+            yaxis2=dict(title='Max CTC (LPA)', overlaying='y', side='right', showgrid=False),
+            hovermode='x unified',
+            legend=dict(x=0, y=1.1, orientation='h')
         )
 
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
+
 
     
     
