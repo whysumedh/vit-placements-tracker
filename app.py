@@ -369,7 +369,7 @@ with tab3:
     df['Month'] = pd.to_datetime(df['Month'], format='%B %Y')
 
     # Dropdown to choose graph type
-    graph_type = st.selectbox("Select graph to view", ["Selections Over Months", "Average CTC per Month"])
+    graph_type = st.selectbox("Select graph to view", ["Selections Over Months", "Average vs Median CTC per Month"])
 
     if graph_type == "Selections Over Months":
         selections = df.groupby('Month')['Reg_No'].count().reset_index(name='Selections')
@@ -394,22 +394,31 @@ with tab3:
     else:
 
         avg_ctc_per_month = df.groupby('Month')['CTC'].mean().reset_index(name='AverageCTC')
-        avg_ctc_per_month = avg_ctc_per_month.sort_values('Month')
+        median_ctc_per_month=df.groupby('Month')['CTC'].median().reset_index(name='MedianCTC')
+        ctc_stats = pd.merge(avg_ctc_per_month, median_ctc_per_month, on='Month')
+        ctc_stats = ctc_stats.sort_values('Month')
+
 
         fig2 = px.line(
-            avg_ctc_per_month,
-            x='Month',
-            y='AverageCTC',
-            title='Average CTC per Month',
-            markers=True,
-            labels={'Month': 'Month', 'AverageCTC': 'Average CTC (LPA)'}
-        )
+        ctc_stats,
+        x='Month',
+        y=['AverageCTC', 'MedianCTC'],
+        title='Average vs. Median CTC per Month',
+        markers=True,
+        labels={
+            'Month': 'Month',
+            'value': 'CTC (LPA)',
+            'variable': 'Metric'
+        }
+    )
+
         fig2.update_layout(
             xaxis_title='Month',
-            yaxis_title='Average CTC (LPA)',
+            yaxis_title='CTC (LPA)',
             xaxis_tickformat='%b %Y',
             hovermode='x unified'
         )
+
         st.plotly_chart(fig2, use_container_width=True)
 
     
