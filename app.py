@@ -70,6 +70,16 @@ def preprocess_and_filter_dataframe(df):
     df = df.drop(columns=['Company_Priority'])
     return df
 
+conversions={
+    "Goldman Sachs Internship":5,
+    "Honeywell":27,
+    "IBM":2,
+    "JP Morgan Internship":9,
+    "Lumiq.ai":4,
+    "UBS":2,
+    "Apple Internship":6
+}
+
 
 st.set_page_config(page_title="VIT Placements" ,layout="wide",page_icon="favicon-16x16.png")
 
@@ -89,7 +99,7 @@ with st.expander("Disclaimer"):
     """)
 
 st.write("**Note**: Please Note Only 21 Batch **B.Tech** details have been considered.")
-st.write(f"Data Updated as on **{formatted_date}**")
+st.write(f"Data Updated as on **{formatted_date}.Next Update will be the last. **")
 st.write("**Companies Monthly(Timeline) Data Updated**")
 
 dop = st.radio("Select DataFrame :", ("Combine WITCH and Normal Offers (Gender Stats Will Be Redacted)", "Consider Only Normal Offers" ))
@@ -269,6 +279,8 @@ with tab2:
         st.write("**Note:** B.Tech Digital Selections: 406 and B.Tech Prime Selections : 44")
     if company == 'Virtusa International':
         st.write("**Note:** Virtusa International Offer : This for US location 55K USD=47.65 LPA")
+    if company in conversions:
+        st.write(f"**Conversions after Internship: {conversions[company]}**")
 
     st.write(f"**Total Selections in {company}: {num_selections_company}**")
     selection_month=", ".join(company_data['Month'].unique())
